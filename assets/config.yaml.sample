@@ -1,0 +1,6 @@
+postgres:
+  address: "localhost"
+  port: 5432
+  database: "drinks"
+  username: "root"
+  password: "****"
