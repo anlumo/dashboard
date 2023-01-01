@@ -50,7 +50,9 @@ class DashboardApp extends StatelessWidget {
           children: [
             const Padding(
               padding: EdgeInsets.all(8.0),
-              child: DrinksHistory(),
+              child: DrinksHistory(
+                fontSize: 16,
+              ),
             ),
             Row(
               children: List.generate(
@@ -59,12 +61,14 @@ class DashboardApp extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: DrinksTop10(
-                        category: index == 0 ? null : index,
-                        colorGenerator: (category) => category != null
-                            ? kColorScheme
-                                .firstWhere((cat) => cat.item1 == category)
-                                .item2
-                            : kColorScheme[0].item2),
+                      category: index == 0 ? null : index,
+                      colorGenerator: (category) => category != null
+                          ? kColorScheme
+                              .firstWhere((cat) => cat.item1 == category)
+                              .item2
+                          : kColorScheme[0].item2,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
               ),

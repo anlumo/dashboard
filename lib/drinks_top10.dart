@@ -8,8 +8,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class DrinksTop10 extends StatelessWidget {
   final int? category;
   final Color Function(int?)? colorGenerator;
+  final double fontSize;
 
-  const DrinksTop10({Key? key, this.category, this.colorGenerator})
+  const DrinksTop10(
+      {Key? key, this.category, this.colorGenerator, this.fontSize = 12})
       : super(key: key);
 
   @override
@@ -47,7 +49,7 @@ class DrinksTop10 extends StatelessWidget {
                 backgroundDecorations: [
                   GridDecoration(
                     showVerticalGrid: false,
-                    textStyle: const TextStyle(fontSize: 12),
+                    textStyle: TextStyle(fontSize: fontSize),
                     horizontalAxisStep: 5,
                     showHorizontalValues: true,
                     gridColor: Colors.white.withOpacity(0.2),
@@ -68,12 +70,13 @@ class DrinksTop10 extends StatelessWidget {
                               child: Container(
                                   clipBehavior: Clip.none,
                                   transform: Matrix4.translationValues(
-                                      itemWidth / 2, 15.0, 0.0)
+                                      itemWidth / 2, 20.0, 0.0)
                                     ..rotateZ(pi / 4),
                                   child: Text(name,
                                       softWrap: false,
-                                      style: const TextStyle(
-                                          color: Colors.white, fontSize: 12))));
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: fontSize))));
                         }).toList(),
                       ),
                     );

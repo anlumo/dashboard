@@ -10,7 +10,8 @@ import 'package:intl/intl.dart';
 final formatter = DateFormat('yyyy-MM-dd');
 
 class DrinksHistory extends StatelessWidget {
-  const DrinksHistory({Key? key}) : super(key: key);
+  final double fontSize;
+  const DrinksHistory({Key? key, this.fontSize = 16}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +75,7 @@ class DrinksHistory extends StatelessWidget {
                 backgroundDecorations: [
                   GridDecoration(
                     showVerticalGrid: false,
-                    textStyle: const TextStyle(fontSize: 12),
+                    textStyle: TextStyle(fontSize: fontSize),
                     horizontalAxisStep: 5,
                     showHorizontalValues: true,
                     gridColor: Colors.white.withOpacity(0.2),
@@ -95,12 +96,13 @@ class DrinksHistory extends StatelessWidget {
                               child: Container(
                                   clipBehavior: Clip.none,
                                   transform: Matrix4.translationValues(
-                                      itemWidth / 2, 15.0, 0.0)
+                                      itemWidth / 2, 20.0, 0.0)
                                     ..rotateZ(pi / 4),
                                   child: Text(formatter.format(date),
                                       softWrap: false,
-                                      style: const TextStyle(
-                                          color: Colors.white, fontSize: 12))));
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: fontSize))));
                         }).toList(),
                       ),
                     );
