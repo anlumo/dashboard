@@ -1,4 +1,4 @@
-import 'package:dashboard/drinks_top10.dart';
+import 'package:dashboard/drinks_history.dart';
 import 'package:dashboard/modules/dependency_injection/di.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +41,7 @@ class DashboardApp extends StatelessWidget {
           children: const [
             Padding(
               padding: EdgeInsets.all(8.0),
-              child: DrinksTop10(),
+              child: DrinksHistory(),
             ),
           ],
         ),

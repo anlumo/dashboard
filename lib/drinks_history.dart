@@ -17,8 +17,8 @@ final kColorScheme = [
 
 final formatter = DateFormat('yyyy-MM-dd');
 
-class DrinksTop10 extends StatelessWidget {
-  const DrinksTop10({Key? key}) : super(key: key);
+class DrinksHistory extends StatelessWidget {
+  const DrinksHistory({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
