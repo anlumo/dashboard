@@ -59,11 +59,12 @@ class DashboardApp extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: DrinksTop10(
-                      category: index == 0 ? null : index,
-                      color: kColorScheme
-                          .firstWhere((element) => element.item1 == index)
-                          .item2,
-                    ),
+                        category: index == 0 ? null : index,
+                        colorGenerator: (category) => category != null
+                            ? kColorScheme
+                                .firstWhere((cat) => cat.item1 == category)
+                                .item2
+                            : kColorScheme[0].item2),
                   ),
                 ),
               ),

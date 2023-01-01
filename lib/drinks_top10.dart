@@ -7,9 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DrinksTop10 extends StatelessWidget {
   final int? category;
-  final Color color;
+  final Color Function(int?)? colorGenerator;
 
-  const DrinksTop10({Key? key, this.category, this.color = Colors.green})
+  const DrinksTop10({Key? key, this.category, this.colorGenerator})
       : super(key: key);
 
   @override
@@ -20,7 +20,7 @@ class DrinksTop10 extends StatelessWidget {
         builder: (context, state) {
           if (state is DrinksInitial) {
             context.read<DrinksBloc>().startTimer(const Duration(seconds: 5),
-                '''SELECT name, SUM(count) AS total FROM drinks, eancodes WHERE drinks.date >= (CURRENT_DATE - INTERVAL '1 month') AND drinks.ean=eancodes.id ${category != null ? 'AND category = $category' : ''} GROUP BY drinks.ean,eancodes.name ORDER BY total DESC LIMIT 10''');
+                '''SELECT name, SUM(count) AS total, category FROM drinks, eancodes WHERE drinks.date >= (CURRENT_DATE - INTERVAL '1 month') AND drinks.ean=eancodes.id ${category != null ? 'AND category = $category' : ''} GROUP BY drinks.ean,eancodes.name, eancodes.category ORDER BY total DESC LIMIT 10''');
           }
           if (state is DrinksHasData) {
             final List<List<ChartItem<double>>> rankedEntries = [
@@ -38,7 +38,11 @@ class DrinksTop10 extends StatelessWidget {
                       return BarItem(
                           radius: const BorderRadius.vertical(
                               top: Radius.circular(4)),
-                          color: color);
+                          color: colorGenerator != null
+                              ? colorGenerator!(
+                                  state.drinks[itemBuilderData.itemIndex]
+                                      ['eancodes']!['category'])
+                              : Colors.green);
                     }),
                 backgroundDecorations: [
                   GridDecoration(
