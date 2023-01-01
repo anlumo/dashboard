@@ -1,11 +1,20 @@
 import 'package:dashboard/drinks_history.dart';
+import 'package:dashboard/drinks_top10.dart';
 import 'package:dashboard/modules/dependency_injection/di.dart';
+import 'package:dashboard/utils/tuple.dart';
 import 'package:flutter/material.dart';
+
+final kColorScheme = [
+  Tuple(0, Colors.grey), // other
+  Tuple(2, Colors.brown), // beer
+  Tuple(3, Colors.green), // Wostok
+  Tuple(4, Colors.black), // Cola
+  Tuple(1, Colors.yellow), // Mate
+];
 
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   await configureDependencyInjection();
-  print("Startup!");
   runApp(const DashboardApp());
 }
 
@@ -38,10 +47,26 @@ class DashboardApp extends StatelessWidget {
         backgroundColor: const Color(0xff181b1f),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: const [
-            Padding(
+          children: [
+            const Padding(
               padding: EdgeInsets.all(8.0),
               child: DrinksHistory(),
+            ),
+            Row(
+              children: List.generate(
+                5,
+                (index) => Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DrinksTop10(
+                      category: index == 0 ? null : index,
+                      color: kColorScheme
+                          .firstWhere((element) => element.item1 == index)
+                          .item2,
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
