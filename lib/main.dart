@@ -1,6 +1,5 @@
-import 'package:dashboard/drinks_history.dart';
-import 'package:dashboard/drinks_top10.dart';
 import 'package:dashboard/modules/dependency_injection/di.dart';
+import 'package:dashboard/tabs_view.dart';
 import 'package:dashboard/utils/tuple.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +12,7 @@ final kColorScheme = [
 ];
 
 void main() async {
-  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await configureDependencyInjection();
   runApp(const DashboardApp());
 }
@@ -43,37 +42,11 @@ class DashboardApp extends StatelessWidget {
             }),
             accentColor: const Color(0xffcc6427)),
       ),
-      home: Scaffold(
-        backgroundColor: const Color(0xff181b1f),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: DrinksHistory(
-                fontSize: 16,
-              ),
-            ),
-            Row(
-              children: List.generate(
-                5,
-                (index) => Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: DrinksTop10(
-                      category: index == 0 ? null : index,
-                      colorGenerator: (category) => category != null
-                          ? kColorScheme
-                              .firstWhere((cat) => cat.item1 == category)
-                              .item2
-                          : kColorScheme[0].item2,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+      home: const Scaffold(
+        backgroundColor: Color(0xff181b1f),
+        body: TabsView(
+          switchTime: Duration(seconds: 10),
+          animationTime: Duration(seconds: 1),
         ),
       ),
     );

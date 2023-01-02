@@ -22,13 +22,15 @@ class DrinksBloc extends Bloc<DrinksEvent, DrinksState> {
   StreamSubscription? _timerSubscription;
 
   void _tick(String sql, Map<String, dynamic>? variables) async {
-    try {
-      final database = await getIt.getAsync<Database>();
-      final data = await database.query(sql, variables: variables);
-      add(DrinksGotData(data: data));
-    } catch (e) {
-      print("Fetching drinks failed: $e");
-      add(DrinksFailed(error: e));
+    if (!isClosed) {
+      try {
+        final database = await getIt.getAsync<Database>();
+        final data = await database.query(sql, variables: variables);
+        add(DrinksGotData(data: data));
+      } catch (e) {
+        print("Fetching drinks failed: $e");
+        add(DrinksFailed(error: e));
+      }
     }
   }
 
