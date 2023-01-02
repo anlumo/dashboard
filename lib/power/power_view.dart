@@ -7,8 +7,11 @@ class PowerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: const [
-        PowerChart(),
+        PowerChart(
+          entityId: "sensor.wel_active_power_total",
+        ),
       ],
     );
   }

@@ -4,3 +4,6 @@ postgres:
   database: "drinks"
   username: "root"
   password: "****"
+homeassistant:
+  url: "ws://<HOST>/api/websocket"
+  token: JWTTOKENHERE

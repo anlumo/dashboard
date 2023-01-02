@@ -15,4 +15,9 @@ class Tuple<T1, T2> {
       json['item2'],
     );
   }
+
+  @override
+  String toString() {
+    return 'Tuple($item1, $item2)';
+  }
 }
