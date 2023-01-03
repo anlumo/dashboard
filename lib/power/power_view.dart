@@ -6,11 +6,20 @@ class PowerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
+      children: [
         PowerChart(
           entityId: "sensor.wel_active_power_total",
+          averageWindow: const Duration(minutes: 60),
+          verticalAxisStep: 24, // one day
+          fontSize: 18,
+          lineColor: colorScheme.secondary,
+          gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [colorScheme.primary, colorScheme.secondary]),
         ),
       ],
     );
