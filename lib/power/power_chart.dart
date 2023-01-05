@@ -12,12 +12,14 @@ final formatter = DateFormat('yyyy-MM-dd');
 @immutable
 class PowerMeasurementPoint {
   final String id;
+  final String description;
   final double multiplier; // to W
   final Color color;
   final List<PowerMeasurementPoint> children;
 
   const PowerMeasurementPoint({
     required this.id,
+    required this.description,
     required this.multiplier,
     required this.color,
     this.children = const [],
