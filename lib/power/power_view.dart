@@ -93,7 +93,7 @@ class PowerView extends StatelessWidget {
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
               colors: [colorScheme.primary, colorScheme.secondary]),
-          height: 400,
+          height: 700,
         ),
       ],
     );
