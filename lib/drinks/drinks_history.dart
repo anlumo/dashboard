@@ -59,6 +59,7 @@ class DrinksHistory extends StatelessWidget {
             }
 
             return Chart(
+              height: 400,
               state: ChartState(
                 data: ChartData(dateEntries,
                     dataStrategy: const StackDataStrategy()),

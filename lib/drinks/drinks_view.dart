@@ -10,7 +10,7 @@ class DrinksView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         const Padding(
           padding: EdgeInsets.all(8.0),

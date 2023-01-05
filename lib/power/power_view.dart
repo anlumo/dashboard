@@ -68,34 +68,37 @@ class PowerView extends StatelessWidget {
         ],
       ),
     ];
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-            width: 250,
-            child: PowerLegend(
-              entities: entities,
-              textStyle: const TextStyle(color: Colors.white, fontSize: 16),
-              colorSize: const Size(40, 20),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              width: 250,
+              child: PowerLegend(
+                entities: entities,
+                textStyle: const TextStyle(color: Colors.white, fontSize: 16),
+                colorSize: const Size(40, 20),
+              ),
             ),
           ),
-        ),
-        PowerChart(
-          entities: entities,
-          averageWindow: const Duration(minutes: 60),
-          verticalAxisStep: 24, // one day
-          fontSize: 18,
-          lineColor: colorScheme.secondary,
-          gradient: LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: [colorScheme.primary, colorScheme.secondary]),
-          height: 700,
-        ),
-      ],
+          PowerChart(
+            entities: entities,
+            averageWindow: const Duration(minutes: 60),
+            verticalAxisStep: 24, // one day
+            fontSize: 18,
+            lineColor: colorScheme.secondary,
+            gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [colorScheme.primary, colorScheme.secondary]),
+            height: 700,
+          ),
+        ],
+      ),
     );
   }
 }
