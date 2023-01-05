@@ -15,8 +15,9 @@ class Database {
       password: dbconfig['password'],
     );
     try {
-      print("Trying to connect...");
+      print("Trying to connect to database...");
       await connection.open();
+      print("Connected to database!");
     } catch (e) {
       print("Database connection failed: $e");
     }

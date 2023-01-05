@@ -14,60 +14,62 @@ const wongColorblindPalette = [
   Color.fromARGB(255, 204, 121, 167),
 ];
 
+final powerMeasurementEntities = [
+  PowerMeasurementPoint(
+    id: 'sensor.wel_active_power_total',
+    description: 'Rest',
+    multiplier: 1000,
+    color: wongColorblindPalette[1],
+    children: [
+      PowerMeasurementPoint(
+        id: "sensor.metalab_active_power_total",
+        description: 'OtterKitchenLib Rest',
+        multiplier: 1000,
+        color: wongColorblindPalette[2],
+        children: [
+          PowerMeasurementPoint(
+            id: "sensor.metafridgepower_energy_power",
+            description: 'Metafridge',
+            multiplier: 1,
+            color: wongColorblindPalette[3],
+          ),
+          PowerMeasurementPoint(
+            id: "sensor.metafreezepower_energy_power",
+            description: 'Metafreezer',
+            multiplier: 1,
+            color: wongColorblindPalette[4],
+          ),
+        ],
+      ),
+      PowerMeasurementPoint(
+        id: "sensor.3dprinter_power",
+        description: '3D Printers',
+        multiplier: 1,
+        color: wongColorblindPalette[5],
+      ),
+      PowerMeasurementPoint(
+        id: "sensor.lasercutter_power",
+        description: 'Lasercutter',
+        multiplier: 1,
+        color: wongColorblindPalette[6],
+      ),
+      PowerMeasurementPoint(
+        id: "sensor.internetpower_energy_power",
+        description: 'Internet + HAM Radio',
+        multiplier: 1,
+        color: wongColorblindPalette[7],
+      ),
+    ],
+  ),
+];
+
 class PowerView extends StatelessWidget {
   const PowerView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final entities = [
-      PowerMeasurementPoint(
-        id: 'sensor.wel_active_power_total',
-        description: 'Rest',
-        multiplier: 1000,
-        color: wongColorblindPalette[1],
-        children: [
-          PowerMeasurementPoint(
-            id: "sensor.metalab_active_power_total",
-            description: 'OtterKitchenLib Rest',
-            multiplier: 1000,
-            color: wongColorblindPalette[2],
-            children: [
-              PowerMeasurementPoint(
-                id: "sensor.metafridgepower_energy_power",
-                description: 'Metafridge',
-                multiplier: 1,
-                color: wongColorblindPalette[3],
-              ),
-              PowerMeasurementPoint(
-                id: "sensor.metafreezepower_energy_power",
-                description: 'Metafreezer',
-                multiplier: 1,
-                color: wongColorblindPalette[4],
-              ),
-            ],
-          ),
-          PowerMeasurementPoint(
-            id: "sensor.3dprinter_power",
-            description: '3D Printers',
-            multiplier: 1,
-            color: wongColorblindPalette[5],
-          ),
-          PowerMeasurementPoint(
-            id: "sensor.lasercutter_power",
-            description: 'Lasercutter',
-            multiplier: 1,
-            color: wongColorblindPalette[6],
-          ),
-          PowerMeasurementPoint(
-            id: "sensor.internetpower_energy_power",
-            description: 'Internet + HAM Radio',
-            multiplier: 1,
-            color: wongColorblindPalette[7],
-          ),
-        ],
-      ),
-    ];
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -79,14 +81,14 @@ class PowerView extends StatelessWidget {
             child: SizedBox(
               width: 250,
               child: PowerLegend(
-                entities: entities,
+                entities: powerMeasurementEntities,
                 textStyle: const TextStyle(color: Colors.white, fontSize: 16),
                 colorSize: const Size(40, 20),
               ),
             ),
           ),
           PowerChart(
-            entities: entities,
+            entities: powerMeasurementEntities,
             averageWindow: const Duration(minutes: 60),
             verticalAxisStep: 24, // one day
             fontSize: 18,
