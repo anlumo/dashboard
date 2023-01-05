@@ -17,7 +17,6 @@ class HassBloc extends Bloc<HassEvent, HassState> {
   HassBloc() : super(HassInitial()) {
     print('starting HassBloc');
     on<HassEvent>((event, emit) {
-      print('hass event: $event');
       if (event is HassConnect) {
         if (state is HassInitial || state is HassDisconnected) {
           Hass.connect();

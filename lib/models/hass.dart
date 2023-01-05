@@ -86,7 +86,6 @@ class Hass {
   void _messageReceived(dynamic event) {
     if (event is String) {
       final parsedEvent = jsonDecode(event);
-      print('received event: $parsedEvent');
 
       if (parsedEvent is Map<String, dynamic>) {
         final id = parsedEvent['id'];
