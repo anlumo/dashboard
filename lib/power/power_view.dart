@@ -61,7 +61,7 @@ class PowerView extends StatelessWidget {
           ),
           PowerMeasurementPoint(
             id: "sensor.internetpower_energy_power",
-            description: 'Internet + CB Radio',
+            description: 'Internet + HAM Radio',
             multiplier: 1,
             color: wongColorblindPalette[7],
           ),
