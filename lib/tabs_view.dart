@@ -43,6 +43,18 @@ class _TabsViewState extends State<TabsView> {
   @override
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
-        duration: widget.animationTime, child: views[currentView]);
+      duration: widget.animationTime,
+      transitionBuilder: (child, animation) {
+        return SlideTransition(
+            position: Tween<Offset>(
+                    begin: (animation.isCompleted)
+                        ? const Offset(-1, 0)
+                        : const Offset(1, 0),
+                    end: const Offset(0, 0))
+                .animate(animation),
+            child: child);
+      },
+      child: views[currentView],
+    );
   }
 }
