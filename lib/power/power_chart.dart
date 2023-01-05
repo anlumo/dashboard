@@ -175,8 +175,10 @@ class PowerChart extends StatelessWidget {
         }
         if (count > 0) {
           smoothedResult.add(multiplier * sum / count);
-          timeSlotEnd = timeSlotEnd.add(averageWindow);
+        } else {
+          smoothedResult.add(0);
         }
+
         final midnight = DateTime(endTime.year, endTime.month, endTime.day)
             .add(const Duration(days: 1));
         while (timeSlotEnd.isBefore(midnight)) {
