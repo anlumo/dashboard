@@ -1,19 +1,8 @@
 import 'package:dashboard/models/cubit/power_request_cubit.dart';
 import 'package:dashboard/power/power_chart.dart';
 import 'package:dashboard/power/power_legend.dart';
+import 'package:dashboard/utils/colors.dart';
 import 'package:flutter/material.dart';
-
-// https://twitter.com/bangwong/status/492662880760655873
-const wongColorblindPalette = [
-  Colors.black,
-  Color.fromARGB(255, 230, 159, 0),
-  Color.fromARGB(255, 86, 180, 233),
-  Color.fromARGB(255, 0, 158, 115),
-  Color.fromARGB(255, 240, 228, 66),
-  Color.fromARGB(255, 0, 114, 178),
-  Color.fromARGB(255, 213, 94, 0),
-  Color.fromARGB(255, 204, 121, 167),
-];
 
 final powerMeasurementEntities = [
   PowerMeasurementPoint(
