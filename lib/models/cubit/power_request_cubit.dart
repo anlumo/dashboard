@@ -16,12 +16,12 @@ class PowerRequestCubit extends Cubit<PowerRequestState> {
     print('power load $start to $end');
     final hassBloc = getIt.get<HassBloc>();
     if (hassBloc.state is HassConnected) {
-      hass = (state as HassConnected).hass;
+      hass = (hassBloc.state as HassConnected).hass;
     } else {
       hassBloc.add(const HassConnect());
-      await for (final state in hassBloc.stream) {
-        if (state is HassConnected) {
-          hass = state.hass;
+      await for (final hassState in hassBloc.stream) {
+        if (hassState is HassConnected) {
+          hass = hassState.hass;
           break;
         }
       }
