@@ -80,11 +80,12 @@ class PowerChart extends StatelessWidget {
         return Center(
             child: Row(
           children: [
-            const Icon(
+            Icon(
               Icons.error_outline,
-              color: Colors.red,
+              color: Theme.of(context).errorColor,
             ),
-            Text('${state.error}', style: const TextStyle(color: Colors.red)),
+            Text('${state.error}',
+                style: TextStyle(color: Theme.of(context).errorColor)),
           ],
         ));
       }
@@ -128,12 +129,12 @@ class PowerChart extends StatelessWidget {
         return Center(
             child: Flex(
           direction: Axis.horizontal,
-          children: const [
+          children: [
             Icon(
               Icons.error_outline,
-              color: Colors.red,
+              color: Theme.of(context).errorColor,
             ),
-            Text('No data'),
+            const Text('No data'),
           ],
         ));
       }

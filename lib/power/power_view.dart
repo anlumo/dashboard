@@ -1,3 +1,4 @@
+import 'package:dashboard/models/cubit/power_request_cubit.dart';
 import 'package:dashboard/power/power_chart.dart';
 import 'package:dashboard/power/power_legend.dart';
 import 'package:flutter/material.dart';
@@ -102,5 +103,18 @@ class PowerView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  static PowerRequestCubit generateCubit(BuildContext context) {
+    final endTime = DateTime.now();
+    final startTime = endTime.subtract(const Duration(
+        days: 14)); // Home Assistant might not have that much data!
+
+    final entityIds = powerMeasurementEntities
+        .expand((entity) => entity.iterator())
+        .map((entity) => entity.id)
+        .toList(growable: false);
+
+    return PowerRequestCubit()..load(startTime, endTime, entityIds);
   }
 }

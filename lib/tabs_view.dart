@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:dashboard/drinks/drinks_view.dart';
-import 'package:dashboard/models/cubit/power_request_cubit.dart';
+import 'package:dashboard/models/cubit/drinks_request_cubit.dart';
 import 'package:dashboard/power/power_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,18 +48,8 @@ class _TabsViewState extends State<TabsView> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) {
-          final endTime = DateTime.now();
-          final startTime = endTime.subtract(const Duration(
-              days: 14)); // Home Assistant might not have that much data!
-
-          final entityIds = powerMeasurementEntities
-              .expand((entity) => entity.iterator())
-              .map((entity) => entity.id)
-              .toList(growable: false);
-
-          return PowerRequestCubit()..load(startTime, endTime, entityIds);
-        }),
+        const BlocProvider(create: PowerView.generateCubit),
+        BlocProvider(create: (_) => DrinksRequestCubit()..load()),
       ],
       child: AnimatedSwitcher(
         duration: widget.animationTime,

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:charts_painter/chart.dart';
-import 'package:dashboard/models/bloc/drinks_bloc.dart';
+import 'package:dashboard/models/cubit/drinks_request_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,97 +21,91 @@ class DrinksTop10 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => DrinksBloc(),
-      child: BlocBuilder<DrinksBloc, DrinksState>(
-        builder: (context, state) {
-          if (state is DrinksInitial) {
-            context.read<DrinksBloc>().startTimer(const Duration(seconds: 5),
-                '''SELECT name, SUM(count) AS total, category FROM drinks, eancodes WHERE drinks.date >= (CURRENT_DATE - INTERVAL '1 month') AND drinks.ean=eancodes.id ${category != null ? 'AND category = $category' : ''} GROUP BY drinks.ean,eancodes.name, eancodes.category ORDER BY total DESC LIMIT 10''');
-          }
-          if (state is DrinksHasData) {
-            final List<List<ChartItem<double>>> rankedEntries = [
-              state.drinks
-                  .map((row) => ChartItem<double>(row['']!['total'].toDouble()))
-                  .toList(growable: false)
-            ];
+    return BlocBuilder<DrinksRequestCubit, DrinksRequestState>(
+      builder: (context, state) {
+        if (state is DrinksRequestInitial || state is DrinksRequestLoading) {
+          return SizedBox(
+            height: height,
+            child: Center(
+              child: SizedBox(
+                width: 32,
+                height: 32,
+                child: CircularProgressIndicator(
+                    color: Theme.of(context).colorScheme.secondary),
+              ),
+            ),
+          );
+        }
+        if (state is DrinksRequestFailed) {
+          return Center(
+            child: Text(
+              '${state.error}',
+              style: TextStyle(color: Theme.of(context).errorColor),
+            ),
+          );
+        }
+        final drinks =
+            (state as DrinksRequestHasData).top10InCategory(category ?? 0);
+        final List<List<ChartItem<double>>> rankedEntries = [
+          drinks
+              .map((row) => ChartItem<double>(row['']!['total'].toDouble()))
+              .toList(growable: false)
+        ];
 
-            return Chart(
-              height: height,
-              state: ChartState(
-                data: ChartData(rankedEntries),
-                itemOptions: BarItemOptions(
-                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    barItemBuilder: (itemBuilderData) {
-                      return BarItem(
-                          radius: const BorderRadius.vertical(
-                              top: Radius.circular(4)),
-                          color: colorGenerator != null
-                              ? colorGenerator!(
-                                  state.drinks[itemBuilderData.itemIndex]
-                                      ['eancodes']!['category'])
-                              : Colors.green);
-                    }),
-                backgroundDecorations: [
-                  GridDecoration(
-                    showVerticalGrid: false,
-                    textStyle: TextStyle(fontSize: fontSize),
-                    horizontalAxisStep: 5,
-                    showHorizontalValues: true,
-                    gridColor: Colors.white.withOpacity(0.2),
+        return Chart(
+          height: height,
+          state: ChartState(
+            data: ChartData(rankedEntries),
+            itemOptions: BarItemOptions(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                barItemBuilder: (itemBuilderData) {
+                  return BarItem(
+                      radius:
+                          const BorderRadius.vertical(top: Radius.circular(4)),
+                      color: colorGenerator != null
+                          ? colorGenerator!(drinks[itemBuilderData.itemIndex]
+                              ['eancodes']!['category'])
+                          : Colors.green);
+                }),
+            backgroundDecorations: [
+              GridDecoration(
+                showVerticalGrid: false,
+                textStyle: TextStyle(fontSize: fontSize),
+                horizontalAxisStep: 5,
+                showHorizontalValues: true,
+                gridColor: Colors.white.withOpacity(0.2),
+              ),
+              WidgetDecoration(widgetDecorationBuilder:
+                  ((context, chartState, itemWidth, verticalMultiplier) {
+                return Container(
+                  margin: chartState.defaultMargin,
+                  clipBehavior: Clip.none,
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: drinks.asMap().entries.map((e) {
+                      final idx = e.key;
+                      final name = e.value['eancodes']!['name'];
+                      return Positioned(
+                          left: idx * itemWidth,
+                          bottom: 0,
+                          child: Container(
+                              clipBehavior: Clip.none,
+                              transform: Matrix4.translationValues(
+                                  itemWidth / 2, 20.0, 0.0)
+                                ..rotateZ(pi / 4),
+                              child: Text(name,
+                                  softWrap: false,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: fontSize))));
+                    }).toList(),
                   ),
-                  WidgetDecoration(widgetDecorationBuilder:
-                      ((context, chartState, itemWidth, verticalMultiplier) {
-                    return Container(
-                      margin: chartState.defaultMargin,
-                      clipBehavior: Clip.none,
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: state.drinks.asMap().entries.map((e) {
-                          final idx = e.key;
-                          final name = e.value['eancodes']!['name'];
-                          return Positioned(
-                              left: idx * itemWidth,
-                              bottom: 0,
-                              child: Container(
-                                  clipBehavior: Clip.none,
-                                  transform: Matrix4.translationValues(
-                                      itemWidth / 2, 20.0, 0.0)
-                                    ..rotateZ(pi / 4),
-                                  child: Text(name,
-                                      softWrap: false,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: fontSize))));
-                        }).toList(),
-                      ),
-                    );
-                  }))
-                ],
-              ),
-            );
-          } else if (state is DrinksError) {
-            return Center(
-              child: Text(
-                state.error.message,
-                style: TextStyle(color: Theme.of(context).errorColor),
-              ),
-            );
-          } else {
-            return SizedBox(
-              height: height,
-              child: Center(
-                child: SizedBox(
-                  width: 32,
-                  height: 32,
-                  child: CircularProgressIndicator(
-                      color: Theme.of(context).colorScheme.secondary),
-                ),
-              ),
-            );
-          }
-        },
-      ),
+                );
+              }))
+            ],
+          ),
+        );
+      },
     );
   }
 }
