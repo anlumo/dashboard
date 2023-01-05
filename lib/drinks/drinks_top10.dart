@@ -6,12 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DrinksTop10 extends StatelessWidget {
+  final double height;
   final int? category;
   final Color Function(int?)? colorGenerator;
   final double fontSize;
 
   const DrinksTop10(
-      {Key? key, this.category, this.colorGenerator, this.fontSize = 12})
+      {Key? key,
+      this.category,
+      this.colorGenerator,
+      this.fontSize = 12,
+      this.height = 250})
       : super(key: key);
 
   @override
@@ -32,6 +37,7 @@ class DrinksTop10 extends StatelessWidget {
             ];
 
             return Chart(
+              height: height,
               state: ChartState(
                 data: ChartData(rankedEntries),
                 itemOptions: BarItemOptions(
@@ -92,12 +98,15 @@ class DrinksTop10 extends StatelessWidget {
               ),
             );
           } else {
-            return Center(
-              child: SizedBox(
-                width: 32,
-                height: 32,
-                child: CircularProgressIndicator(
-                    color: Theme.of(context).colorScheme.secondary),
+            return SizedBox(
+              height: height,
+              child: Center(
+                child: SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.secondary),
+                ),
               ),
             );
           }

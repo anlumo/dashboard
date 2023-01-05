@@ -69,13 +69,16 @@ class PowerChart extends StatelessWidget {
       bloc: hassBloc,
       builder: (context, state) {
         if (state is HassInitial || state is HassConnecting) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(
-                  child: CircularProgressIndicator(
-                      color: Theme.of(context).colorScheme.secondary)),
-            ],
+          return SizedBox(
+            height: height,
+            child: Center(
+              child: SizedBox(
+                width: 25,
+                height: 25,
+                child: CircularProgressIndicator(
+                    color: Theme.of(context).colorScheme.secondary),
+              ),
+            ),
           );
         }
         if (state is HassDisconnected) {
@@ -114,13 +117,16 @@ class PowerChart extends StatelessWidget {
               );
             }
             if (!snapshot.hasData) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                      child: CircularProgressIndicator(
-                          color: Theme.of(context).colorScheme.secondary)),
-                ],
+              return SizedBox(
+                height: height,
+                child: Center(
+                  child: SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.secondary),
+                  ),
+                ),
               );
             }
             final totalPower = snapshot.data as Map<String, dynamic>;
@@ -308,15 +314,6 @@ class PowerChart extends StatelessWidget {
                     );
                   }))
                 ],
-                // foregroundDecorations: entityOrder
-                //     .mapIndex((entity, index) => SparkLineDecoration(
-                //           id: '${entity.id}_line',
-                //           lineWidth: 2,
-                //           lineColor: entity.color,
-                //           smoothPoints: true,
-                //           listIndex: index,
-                //         ))
-                //     .toList(growable: false)
               ),
             );
           },

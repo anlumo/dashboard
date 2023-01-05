@@ -10,8 +10,10 @@ import 'package:intl/intl.dart';
 final formatter = DateFormat('yyyy-MM-dd');
 
 class DrinksHistory extends StatelessWidget {
+  final double height;
   final double fontSize;
-  const DrinksHistory({Key? key, this.fontSize = 16}) : super(key: key);
+  const DrinksHistory({Key? key, this.fontSize = 16, this.height = 400})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,7 @@ class DrinksHistory extends StatelessWidget {
             }
 
             return Chart(
-              height: 400,
+              height: height,
               state: ChartState(
                 data: ChartData(dateEntries,
                     dataStrategy: const StackDataStrategy()),
@@ -119,12 +121,15 @@ class DrinksHistory extends StatelessWidget {
               ),
             );
           } else {
-            return Center(
-              child: SizedBox(
-                width: 32,
-                height: 32,
-                child: CircularProgressIndicator(
-                    color: Theme.of(context).colorScheme.secondary),
+            return SizedBox(
+              height: height,
+              child: Center(
+                child: SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.secondary),
+                ),
               ),
             );
           }
