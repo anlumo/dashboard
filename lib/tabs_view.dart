@@ -28,8 +28,8 @@ class _TabsViewState extends State<TabsView> {
   void initState() {
     super.initState();
 
-    views.add(const DrinksView());
-    views.add(const PowerView());
+    views.add(const DrinksView(key: ValueKey<int>(0)));
+    views.add(const PowerView(key: ValueKey<int>(1)));
 
     tabSwitchTimer = Timer.periodic(widget.switchTime, (timer) {
       setState(() {
@@ -62,11 +62,7 @@ class _TabsViewState extends State<TabsView> {
               .animate(animation),
           child: child,
         ),
-        child: IndexedStack(
-          key: ValueKey<int>(index),
-          index: index,
-          children: views,
-        ),
+        child: views[index],
       ),
     );
   }
