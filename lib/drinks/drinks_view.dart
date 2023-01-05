@@ -10,10 +10,10 @@ class DrinksView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         const Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.fromLTRB(16, 8, 8, 120),
           child: DrinksHistory(
             fontSize: 16,
           ),
