@@ -13,6 +13,9 @@ class TemperatureEntry {
   final double temperature;
 
   const TemperatureEntry(this.time, this.temperature);
+
+  @override
+  String toString() => 'TemperatureEntry($time, $temperature)';
 }
 
 class TemperatureRequestCubit extends Cubit<TemperatureRequestState> {

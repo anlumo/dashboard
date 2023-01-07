@@ -10,9 +10,21 @@ final temperatureMeasurementEntities = [
       description: 'Otter Space',
       color: wongColorblindPalette[1]),
   TemperatureMeasurementPoint(
+      id: 'sensor.air_quality_sensor_temperature',
+      description: 'Otter Space Air Quality',
+      color: wongColorblindPalette[2]),
+  // TemperatureMeasurementPoint(
+  //     id: 'sensor.weltemp_temperature',
+  //     description: 'Whatever Lab',
+  //     color: wongColorblindPalette[3]),
+  TemperatureMeasurementPoint(
       id: 'sensor.hmtemp_temperature',
       description: 'Heavy Machinery',
-      color: wongColorblindPalette[2]),
+      color: wongColorblindPalette[4]),
+  TemperatureMeasurementPoint(
+      id: 'sensor.antishutdown_ds18b20_temperature',
+      description: 'Entrance',
+      color: wongColorblindPalette[5]),
 ];
 
 class TemperaturesView extends StatelessWidget {
@@ -26,7 +38,13 @@ class TemperaturesView extends StatelessWidget {
         builder: (context, state) {
           return Wrap(
             children: temperatureMeasurementEntities
-                .map((entity) => TemperaturesChart(entity: entity))
+                .map((entity) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TemperaturesChart(
+                        entity: entity,
+                        averageWindow: const Duration(minutes: 5),
+                      ),
+                    ))
                 .toList(growable: false),
           );
         },
@@ -37,7 +55,7 @@ class TemperaturesView extends StatelessWidget {
   static TemperatureRequestCubit generateCubit(BuildContext context) {
     final endTime = DateTime.now();
     final startTime = endTime.subtract(const Duration(
-        days: 14)); // Home Assistant might not have that much data!
+        days: 2)); // Home Assistant might not have that much data!
 
     final entityIds = temperatureMeasurementEntities
         .map((entity) => entity.id)
