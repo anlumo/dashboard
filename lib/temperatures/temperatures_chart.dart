@@ -2,7 +2,10 @@ import 'package:charts_painter/chart.dart';
 import 'package:dashboard/models/cubit/temperature_request_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:list_ext/list_ext.dart';
+
+final formatter = DateFormat('yyyy-MM-dd');
 
 @immutable
 class TemperatureMeasurementPoint {
@@ -25,13 +28,15 @@ class TemperaturesChart extends StatelessWidget {
   final double height;
   final double fontSize;
   final Duration averageWindow;
+  final double verticalAxisStep;
 
   const TemperaturesChart(
       {Key? key,
       required this.entity,
       this.fontSize = 16,
       this.height = 200,
-      required this.averageWindow})
+      required this.averageWindow,
+      required this.verticalAxisStep})
       : super(key: key);
 
   @override
@@ -70,7 +75,9 @@ class TemperaturesChart extends StatelessWidget {
 
         final smoothedValues = <double>[];
 
-        var time = values.first.time.add(averageWindow);
+        final startTime = values.first.time;
+        final endTime = values.last.time;
+        var time = startTime.add(averageWindow);
         int valuesIdx = 0;
         int count = 0;
         double sum = 0;
@@ -126,7 +133,7 @@ class TemperaturesChart extends StatelessWidget {
                   backgroundDecorations: [
                     GridDecoration(
                       showVerticalGrid: true,
-                      verticalAxisStep: 10,
+                      verticalAxisStep: verticalAxisStep,
                       verticalAxisValueFromIndex: (value) => value.toString(),
                       textStyle: TextStyle(fontSize: fontSize),
                       horizontalAxisStep: (maximum - minimum) / 5,
@@ -144,6 +151,39 @@ class TemperaturesChart extends StatelessWidget {
                       lineColor: entity.color,
                       smoothPoints: true,
                     ),
+                    WidgetDecoration(widgetDecorationBuilder:
+                        ((context, chartState, itemWidth, verticalMultiplier) {
+                      final duration = endTime.difference(startTime);
+
+                      return Container(
+                        margin: chartState.defaultMargin,
+                        clipBehavior: Clip.none,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: List.generate(duration.inDays + 1, (index) {
+                            return Positioned(
+                                left: index * itemWidth * verticalAxisStep,
+                                bottom: 0,
+                                child: Container(
+                                    clipBehavior: Clip.none,
+                                    transform: Matrix4.translationValues(
+                                        0.0, 20.0, 0.0),
+                                    child: SizedBox(
+                                      width: itemWidth * verticalAxisStep,
+                                      child: Text(
+                                        textAlign: TextAlign.center,
+                                        formatter.format(startTime
+                                            .add(Duration(days: index))),
+                                        softWrap: false,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: fontSize),
+                                      ),
+                                    )));
+                          }),
+                        ),
+                      );
+                    }))
                   ]),
             ),
           ],

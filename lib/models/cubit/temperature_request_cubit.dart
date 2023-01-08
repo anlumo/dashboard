@@ -19,6 +19,8 @@ class TemperatureEntry {
 }
 
 class TemperatureRequestCubit extends Cubit<TemperatureRequestState> {
+  final Set<String> _entityIds = {};
+  Duration? dataDuration;
   TemperatureRequestCubit() : super(TemperatureRequestInitial());
 
   // can be called multiple times to reload the data
@@ -26,6 +28,7 @@ class TemperatureRequestCubit extends Cubit<TemperatureRequestState> {
       DateTime start, DateTime end, List<String> entityIds) async {
     Hass? hass;
     print('temperature load $start to $end');
+    dataDuration = end.difference(start);
     final hassBloc = getIt.get<HassBloc>();
     if (hassBloc.state is HassConnected) {
       hass = (hassBloc.state as HassConnected).hass;
@@ -41,6 +44,8 @@ class TemperatureRequestCubit extends Cubit<TemperatureRequestState> {
     if (hass == null) {
       return;
     }
+    _entityIds.addAll(entityIds);
+    hass.stateChangedStream.listen(_stateChangedEvent);
     if (state is TemperatureRequestInitial) {
       // avoid setting this state if we still have old data
       emit(TemperatureRequestLoading());
@@ -90,6 +95,43 @@ class TemperatureRequestCubit extends Cubit<TemperatureRequestState> {
       print('error: $error');
       emit(TemperatureRequestFailed(error));
       rethrow;
+    }
+  }
+
+  void _stateChangedEvent(Map<String, dynamic> event) {
+    final newState = event['data']['new_state'];
+    final entityId = newState['entity_id'];
+    if (_entityIds.contains(entityId) && state is TemperatureRequestHasData) {
+      late final TemperatureEntry eventData;
+      try {
+        eventData = TemperatureEntry(DateTime.parse(newState['last_changed']),
+            double.parse(newState['state']));
+      } catch (error) {
+        print('Failed parsing entry: $newState: $error');
+        return;
+      }
+      print('new state $entityId: $eventData');
+      final oldData = (state as TemperatureRequestHasData).data;
+      final data =
+          Map<String, List<TemperatureEntry>>.fromEntries(oldData.entries.map(
+        (kv) {
+          if (kv.key == entityId &&
+              kv.value.last.time.isBefore(eventData.time)) {
+            final earliest = dataDuration != null
+                ? eventData.time.subtract(dataDuration!)
+                : null;
+            return MapEntry(
+                kv.key,
+                List.unmodifiable(kv.value
+                    .where((event) =>
+                        earliest == null || eventData.time.isAfter(earliest))
+                    .followedBy([eventData])));
+          } else {
+            return kv;
+          }
+        },
+      ));
+      emit(TemperatureRequestHasData(data));
     }
   }
 }

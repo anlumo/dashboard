@@ -43,6 +43,7 @@ class TemperaturesView extends StatelessWidget {
                       child: TemperaturesChart(
                         entity: entity,
                         averageWindow: const Duration(minutes: 5),
+                        verticalAxisStep: 24 * 60 / 5, // one day
                       ),
                     ))
                 .toList(growable: false),
