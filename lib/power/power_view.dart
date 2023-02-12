@@ -1,6 +1,7 @@
 import 'package:dashboard/models/cubit/power_request_cubit.dart';
 import 'package:dashboard/power/power_chart.dart';
 import 'package:dashboard/power/power_legend.dart';
+import 'package:dashboard/sensors/power_sensor.dart';
 import 'package:dashboard/utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -60,24 +61,14 @@ class PowerView extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: 250,
-              child: PowerLegend(
-                entities: powerMeasurementEntities,
-                textStyle: const TextStyle(color: Colors.white, fontSize: 16),
-                colorSize: const Size(40, 20),
-              ),
-            ),
-          ),
-          PowerChart(
+    return Stack(
+      fit: StackFit.expand,
+      // mainAxisAlignment: MainAxisAlignment.center,
+      // crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 32),
+          child: PowerChart(
             entities: powerMeasurementEntities,
             averageWindow: const Duration(minutes: 60),
             verticalAxisStep: 24, // one day
@@ -87,10 +78,38 @@ class PowerView extends StatelessWidget {
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
                 colors: [colorScheme.primary, colorScheme.secondary]),
-            height: 700,
+            height: 300,
           ),
-        ],
-      ),
+        ),
+        Positioned(
+          left: 16,
+          top: 16,
+          child: PowerSensor(
+            title: 'Current Total Power',
+            entityId: 'sensor.wel_active_power_total',
+            color: Theme.of(context).cardColor.withAlpha(230),
+          ),
+        ),
+        Positioned(
+          left: 16,
+          bottom: 64,
+          child: Card(
+            elevation: 5,
+            color: Theme.of(context).cardColor.withAlpha(230),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: 250,
+                child: PowerLegend(
+                  entities: powerMeasurementEntities,
+                  textStyle: const TextStyle(color: Colors.white, fontSize: 16),
+                  colorSize: const Size(40, 20),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

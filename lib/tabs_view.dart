@@ -33,7 +33,6 @@ class _TabsViewState extends State<TabsView> {
     views.add(const DrinksView(key: ValueKey<int>(0)));
     views.add(const PowerView(key: ValueKey<int>(1)));
     views.add(const TemperaturesView(key: ValueKey<int>(2)));
-    views.add(const SensorsView(key: ValueKey<int>(3)));
 
     tabSwitchTimer = Timer.periodic(widget.switchTime, (timer) {
       setState(() {
@@ -56,18 +55,27 @@ class _TabsViewState extends State<TabsView> {
         const BlocProvider(create: TemperaturesView.generateCubit),
         BlocProvider(create: (_) => DrinksRequestCubit()..load()),
       ],
-      child: AnimatedSwitcher(
-        duration: widget.animationTime,
-        transitionBuilder: (child, animation) => SlideTransition(
-          position: Tween<Offset>(
-                  begin: (animation.isCompleted)
-                      ? const Offset(-1, 0)
-                      : const Offset(1, 0),
-                  end: const Offset(0, 0))
-              .animate(animation),
-          child: child,
-        ),
-        child: views[index],
+      child: Column(
+        children: [
+          Expanded(
+            child: AnimatedSwitcher(
+              duration: widget.animationTime,
+              transitionBuilder: (child, animation) => SlideTransition(
+                position: Tween<Offset>(
+                        begin: (animation.isCompleted)
+                            ? const Offset(0, -1)
+                            : const Offset(0, 1),
+                        end: const Offset(0, 0))
+                    .animate(CurvedAnimation(
+                        parent: animation, curve: Curves.easeInOut)),
+                child: child,
+              ),
+              child: views[index],
+            ),
+          ),
+          ColoredBox(
+              color: Theme.of(context).canvasColor, child: const SensorsView()),
+        ],
       ),
     );
   }

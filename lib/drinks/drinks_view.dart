@@ -13,9 +13,10 @@ class DrinksView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         const Padding(
-          padding: EdgeInsets.fromLTRB(16, 8, 8, 120),
+          padding: EdgeInsets.fromLTRB(16, 16, 8, 100),
           child: DrinksHistory(
             fontSize: 16,
+            height: 260,
           ),
         ),
         Row(
@@ -32,6 +33,7 @@ class DrinksView extends StatelessWidget {
                           .item2
                       : kColorScheme[0].item2,
                   fontSize: 16,
+                  height: 190,
                 ),
               ),
             ),

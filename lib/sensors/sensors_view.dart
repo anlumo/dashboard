@@ -1,4 +1,5 @@
 import 'package:dashboard/sensors/co2_sensor.dart';
+import 'package:dashboard/sensors/telephone_sensor.dart';
 import 'package:dashboard/sensors/temperature_sensor.dart';
 import 'package:dashboard/sensors/toilet_sensor.dart';
 import 'package:dashboard/sensors/window_sensor.dart';
@@ -13,6 +14,7 @@ class SensorsView extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Flex(
         direction: Axis.horizontal,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const ToiletSensor(
             title: "Sitzklo",
@@ -23,7 +25,7 @@ class SensorsView extends StatelessWidget {
             entityId: "binary_sensor.switch2",
           ),
           Card(
-            elevation: 10,
+            elevation: 5,
             child: SizedBox(
               width: 256,
               height: 256,
@@ -70,10 +72,17 @@ class SensorsView extends StatelessWidget {
               ],
             ),
           ),
-          const TemperatureSensor(
-            title: "Eingang",
-            entityId: "sensor.antishutdown_ds18b20_temperature",
-          ),
+          SizedBox(
+              height: 280,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    TemperatureSensor(
+                      title: "Eingang",
+                      entityId: "sensor.antishutdown_ds18b20_temperature",
+                    ),
+                    TelephoneSensor(title: "Telefonzellen"),
+                  ])),
         ],
       ),
     );

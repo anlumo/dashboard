@@ -82,10 +82,10 @@ class PowerChart extends StatelessWidget {
           children: [
             Icon(
               Icons.error_outline,
-              color: Theme.of(context).errorColor,
+              color: Theme.of(context).colorScheme.error,
             ),
             Text('${state.error}',
-                style: TextStyle(color: Theme.of(context).errorColor)),
+                style: TextStyle(color: Theme.of(context).colorScheme.error)),
           ],
         ));
       }
@@ -132,7 +132,7 @@ class PowerChart extends StatelessWidget {
           children: [
             Icon(
               Icons.error_outline,
-              color: Theme.of(context).errorColor,
+              color: Theme.of(context).colorScheme.error,
             ),
             const Text('No data'),
           ],
