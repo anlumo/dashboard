@@ -1,3 +1,5 @@
+import 'package:dashboard/sensors/co2_sensor.dart';
+import 'package:dashboard/sensors/temperature_sensor.dart';
 import 'package:dashboard/sensors/toilet_sensor.dart';
 import 'package:dashboard/sensors/window_sensor.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,8 @@ class SensorsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
+      child: Flex(
+        direction: Axis.horizontal,
         children: [
           const ToiletSensor(
             title: "Sitzklo",
@@ -23,7 +26,9 @@ class SensorsView extends StatelessWidget {
             elevation: 10,
             child: SizedBox(
               width: 256,
+              height: 256,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
                   WindowSensor(
                     title: "Otterspace 5",
@@ -37,9 +42,37 @@ class SensorsView extends StatelessWidget {
                     title: "Toilet",
                     entityId: "binary_sensor.toiletwindow_contact",
                   ),
+                  WindowSensor(
+                    title: "Bibliothek",
+                    entityId: "binary_sensor.librarywindow_contact",
+                  ),
+                  WindowSensor(
+                    title: "WEL",
+                    entityId: "binary_sensor.welwindow_contact",
+                  ),
                 ],
               ),
             ),
+          ),
+          SizedBox(
+            height: 280,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                TemperatureSensor(
+                  title: "Otterspace",
+                  entityId: "sensor.temp_mainroom",
+                ),
+                Co2Sensor(
+                  title: "Otterspace CO₂",
+                  entityId: "sensor.air_quality_sensor_co2",
+                ),
+              ],
+            ),
+          ),
+          const TemperatureSensor(
+            title: "Eingang",
+            entityId: "sensor.antishutdown_ds18b20_temperature",
           ),
         ],
       ),

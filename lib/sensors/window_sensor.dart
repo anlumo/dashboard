@@ -24,7 +24,7 @@ class WindowSensor extends StatelessWidget {
                 children: [
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: state ? const Text('offen') : const Text('zu')),
+                      child: state ? const Text('auf') : const Text('zu')),
                   SvgPicture.asset(
                     state
                         ? "assets/window-open-variant.svg"
