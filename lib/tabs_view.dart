@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dashboard/drinks/drinks_view.dart';
 import 'package:dashboard/models/cubit/drinks_request_cubit.dart';
 import 'package:dashboard/power/power_view.dart';
+import 'package:dashboard/sensors/sensors_view.dart';
 import 'package:dashboard/temperatures/temperatures_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +33,7 @@ class _TabsViewState extends State<TabsView> {
     views.add(const DrinksView(key: ValueKey<int>(0)));
     views.add(const PowerView(key: ValueKey<int>(1)));
     views.add(const TemperaturesView(key: ValueKey<int>(2)));
+    views.add(const SensorsView(key: ValueKey<int>(3)));
 
     tabSwitchTimer = Timer.periodic(widget.switchTime, (timer) {
       setState(() {

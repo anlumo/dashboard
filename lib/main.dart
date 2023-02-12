@@ -4,11 +4,11 @@ import 'package:dashboard/utils/tuple.dart';
 import 'package:flutter/material.dart';
 
 final kColorScheme = [
-  Tuple(0, Colors.grey), // other
-  Tuple(2, Colors.brown), // beer
-  Tuple(3, Colors.green), // Wostok
-  Tuple(4, Colors.black), // Cola
-  Tuple(1, Colors.yellow), // Mate
+  const Tuple(0, Colors.grey), // other
+  const Tuple(2, Colors.brown), // beer
+  const Tuple(3, Colors.green), // Wostok
+  const Tuple(4, Colors.black), // Cola
+  const Tuple(1, Colors.yellow), // Mate
 ];
 
 void main() async {
@@ -28,6 +28,8 @@ class DashboardApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
+            brightness: Brightness.dark,
+            backgroundColor: const Color(0xff181b1f),
             primarySwatch: const MaterialColor(0xff182E46, <int, Color>{
               50: Color(0xffb3b5b8),
               100: Color(0xff3e9ac4),

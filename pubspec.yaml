@@ -46,6 +46,8 @@ dependencies:
   intl: ^0.18.0
   async: ^2.9.0
   list_ext: ^1.0.6
+  font_awesome_flutter: ^10.4.0
+  flutter_svg: ^2.0.0+1
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +74,8 @@ flutter:
 
   assets:
     - assets/config.yaml
+    - assets/window-closed-variant.svg
+    - assets/window-open-variant.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
