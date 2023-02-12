@@ -28,8 +28,9 @@ class TemperatureSensor extends StatelessWidget {
                   child: Sensor(
                     entityId: entityId,
                     builder: (context, state) {
+                      final value = double.parse(state);
                       return Text(
-                        '$state°C',
+                        '${value.toStringAsFixed(1)} °C',
                         style:
                             const TextStyle(fontSize: 60, color: Colors.amber),
                       );
