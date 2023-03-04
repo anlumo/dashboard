@@ -18,8 +18,9 @@ final temperatureMeasurementEntities = [
   //     description: 'Whatever Lab',
   //     color: wongColorblindPalette[3]),
   TemperatureMeasurementPoint(
-      id: 'sensor.hmtemp_temperature',
-      description: 'Heavy Machinery',
+      id: 'sensor.air_quality_sensor_co2',
+      description: 'Otter Space CO₂',
+      valueFormatter: (value) => '${(value / 10).round()} ppm',
       color: wongColorblindPalette[4]),
   TemperatureMeasurementPoint(
       id: 'sensor.antishutdown_ds18b20_temperature',

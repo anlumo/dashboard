@@ -12,11 +12,13 @@ class TemperatureMeasurementPoint {
   final String id;
   final String description;
   final Color color;
+  final String Function(int)? valueFormatter;
 
   const TemperatureMeasurementPoint({
     required this.id,
     required this.description,
     required this.color,
+    this.valueFormatter,
   });
 
   @override
@@ -30,14 +32,14 @@ class TemperaturesChart extends StatelessWidget {
   final Duration averageWindow;
   final double verticalAxisStep;
 
-  const TemperaturesChart(
-      {Key? key,
-      required this.entity,
-      this.fontSize = 16,
-      this.height = 200,
-      required this.averageWindow,
-      required this.verticalAxisStep})
-      : super(key: key);
+  const TemperaturesChart({
+    Key? key,
+    required this.entity,
+    this.fontSize = 16,
+    this.height = 200,
+    required this.averageWindow,
+    required this.verticalAxisStep,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -137,8 +139,8 @@ class TemperaturesChart extends StatelessWidget {
                       verticalAxisValueFromIndex: (value) => value.toString(),
                       textStyle: TextStyle(fontSize: fontSize),
                       horizontalAxisStep: (maximum - minimum) / 5,
-                      horizontalAxisValueFromValue: (value) =>
-                          '${value / 10} °C',
+                      horizontalAxisValueFromValue: entity.valueFormatter ??
+                          (value) => '${value / 10} °C',
                       showTopHorizontalValue: false,
                       showHorizontalValues: true,
                       gridColor: Colors.white.withOpacity(0.2),
