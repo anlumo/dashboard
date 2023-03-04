@@ -58,15 +58,15 @@ class TemperaturesChart extends StatelessWidget {
           );
         }
         if (state is TemperatureRequestFailed) {
+          final color = Theme.of(context).colorScheme.error;
           return Center(
               child: Row(
             children: [
               Icon(
                 Icons.error_outline,
-                color: Theme.of(context).errorColor,
+                color: color,
               ),
-              Text('${state.error}',
-                  style: TextStyle(color: Theme.of(context).errorColor)),
+              Text('${state.error}', style: TextStyle(color: color)),
             ],
           ));
         }

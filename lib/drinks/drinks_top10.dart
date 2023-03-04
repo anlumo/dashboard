@@ -40,7 +40,7 @@ class DrinksTop10 extends StatelessWidget {
           return Center(
             child: Text(
               '${state.error}',
-              style: TextStyle(color: Theme.of(context).errorColor),
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
             ),
           );
         }
