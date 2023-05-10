@@ -17,12 +17,12 @@ class SensorsView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const ToiletSensor(
-            title: "Sitzklo",
-            entityId: "binary_sensor.switch1",
-          ),
-          const ToiletSensor(
             title: "Stehklo",
             entityId: "binary_sensor.switch2",
+          ),
+          const ToiletSensor(
+            title: "Sitzklo",
+            entityId: "binary_sensor.switch1",
           ),
           Card(
             elevation: 5,
@@ -74,15 +74,13 @@ class SensorsView extends StatelessWidget {
           ),
           SizedBox(
               height: 280,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    TemperatureSensor(
-                      title: "Eingang",
-                      entityId: "sensor.antishutdown_ds18b20_temperature",
-                    ),
-                    TelephoneSensor(title: "Telefonzellen"),
-                  ])),
+              child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [
+                TemperatureSensor(
+                  title: "Eingang",
+                  entityId: "sensor.antishutdown_ds18b20_temperature",
+                ),
+                TelephoneSensor(title: "Telefonzellen"),
+              ])),
         ],
       ),
     );
