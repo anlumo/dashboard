@@ -26,9 +26,13 @@ class _TabsViewState extends State<TabsView> {
   int index = 0;
   List<Widget> views = [];
 
+  final DrinksRequestCubit _drinksRequestCubit = DrinksRequestCubit();
+
   @override
   void initState() {
     super.initState();
+
+    _drinksRequestCubit.load();
 
     views.add(const DrinksView(key: ValueKey<int>(0)));
     views.add(const PowerView(key: ValueKey<int>(1)));
@@ -53,7 +57,7 @@ class _TabsViewState extends State<TabsView> {
       providers: [
         const BlocProvider(create: PowerView.generateCubit),
         const BlocProvider(create: TemperaturesView.generateCubit),
-        BlocProvider(create: (_) => DrinksRequestCubit()..load()),
+        BlocProvider(create: (_) => _drinksRequestCubit),
       ],
       child: Column(
         children: [
@@ -62,19 +66,15 @@ class _TabsViewState extends State<TabsView> {
               duration: widget.animationTime,
               transitionBuilder: (child, animation) => SlideTransition(
                 position: Tween<Offset>(
-                        begin: (animation.isCompleted)
-                            ? const Offset(0, -1)
-                            : const Offset(0, 1),
+                        begin: (animation.isCompleted) ? const Offset(0, -1) : const Offset(0, 1),
                         end: const Offset(0, 0))
-                    .animate(CurvedAnimation(
-                        parent: animation, curve: Curves.easeInOut)),
+                    .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut)),
                 child: child,
               ),
               child: views[index],
             ),
           ),
-          ColoredBox(
-              color: Theme.of(context).canvasColor, child: const SensorsView()),
+          ColoredBox(color: Theme.of(context).canvasColor, child: const SensorsView()),
         ],
       ),
     );
