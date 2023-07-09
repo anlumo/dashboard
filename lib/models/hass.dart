@@ -78,8 +78,7 @@ class Hass {
         onError: (error) => bloc.add(HassConnectionError(error)),
         cancelOnError: true);
 
-    instance.stateChangedStream =
-        instance.subscribeEvents('state_changed', broadcast: true);
+    instance.stateChangedStream = instance.subscribeEvents('state_changed', broadcast: true);
     bloc.add(HassConnectionOpen(instance));
   }
 
@@ -127,8 +126,7 @@ class Hass {
     // todo
   }
 
-  Future<Map<String, dynamic>> request(String type,
-      {Map<String, dynamic>? data}) async {
+  Future<Map<String, dynamic>> request(String type, {Map<String, dynamic>? data}) async {
     final id = messageId++;
     final completer = Completer<Map<String, dynamic>>();
     _requests[id] = completer;
@@ -140,13 +138,11 @@ class Hass {
     return completer.future;
   }
 
-  Stream<Map<String, dynamic>> _subscribe(String type,
-      {Map<String, dynamic>? data, bool broadcast = false}) {
+  Stream<Map<String, dynamic>> _subscribe(String type, {Map<String, dynamic>? data, bool broadcast = false}) {
     final subscriptionId = messageId;
     onCancel() async {
       _subscriptions.remove(subscriptionId);
-      await request('unsubscribe_$type',
-          data: {'subscription': subscriptionId});
+      await request('unsubscribe_$type', data: {'subscription': subscriptionId});
     }
 
     final controller = broadcast
@@ -166,18 +162,14 @@ class Hass {
     return controller.stream;
   }
 
-  Stream<Map<String, dynamic>> subscribeEvents(String? eventType,
-      {bool broadcast = false}) {
+  Stream<Map<String, dynamic>> subscribeEvents(String? eventType, {bool broadcast = false}) {
     return eventType != null
-        ? _subscribe('events',
-            data: {'event_type': eventType}, broadcast: broadcast)
+        ? _subscribe('events', data: {'event_type': eventType}, broadcast: broadcast)
         : _subscribe('events');
   }
 
-  Stream<Map<String, dynamic>> subscribeTrigger(dynamic trigger,
-      {bool broadcast = false}) {
-    return _subscribe('trigger',
-        data: {'trigger': trigger}, broadcast: broadcast);
+  Stream<Map<String, dynamic>> subscribeTrigger(dynamic trigger, {bool broadcast = false}) {
+    return _subscribe('trigger', data: {'trigger': trigger}, broadcast: broadcast);
   }
 
   Future<void> ping() async {

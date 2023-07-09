@@ -19,8 +19,8 @@ class HassBloc extends Bloc<HassEvent, HassState> {
     on<HassEvent>((event, emit) {
       print('hass event $event');
       if (event is HassConnect) {
-        if (state is HassInitial || state is HassDisconnected) {
-          Hass.connect();
+        if (state is HassInitial) {
+          unawaited(Hass.connect());
         }
       } else if (event is HassStartConnecting) {
         emit(HassConnecting());
@@ -39,6 +39,15 @@ class HassBloc extends Bloc<HassEvent, HassState> {
         emit(HassDisconnected());
       }
     });
+  }
+
+  @override
+  void onEvent(HassEvent event) {
+    super.onEvent(event);
+    // automatically reconnect
+    if (event is HassConnectionClosed) {
+      unawaited(Hass.connect());
+    }
   }
 
   @override
