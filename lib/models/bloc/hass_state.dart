@@ -1,17 +1,17 @@
 part of 'hass_bloc.dart';
 
-abstract class HassState extends Equatable {
+sealed class HassState extends Equatable {
   const HassState();
 
   @override
   List<Object> get props => [];
 }
 
-class HassInitial extends HassState {}
+final class HassInitial extends HassState {}
 
-class HassConnecting extends HassState {}
+final class HassConnecting extends HassState {}
 
-class HassConnected extends HassState {
+final class HassConnected extends HassState {
   final Hass hass;
 
   const HassConnected(this.hass);
@@ -20,4 +20,4 @@ class HassConnected extends HassState {
   List<Object> get props => [hass];
 }
 
-class HassDisconnected extends HassState {}
+final class HassDisconnected extends HassState {}
