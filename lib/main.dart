@@ -1,14 +1,13 @@
 import 'package:dashboard/modules/dependency_injection/di.dart';
 import 'package:dashboard/tabs_view.dart';
-import 'package:dashboard/utils/tuple.dart';
 import 'package:flutter/material.dart';
 
 final kColorScheme = [
-  const Tuple(0, Colors.grey), // other
-  const Tuple(2, Colors.brown), // beer
-  const Tuple(3, Colors.green), // Wostok
-  const Tuple(4, Colors.black), // Cola
-  const Tuple(1, Colors.yellow), // Mate
+  const (0, Colors.grey), // other
+  const (2, Colors.brown), // beer
+  const (3, Colors.green), // Wostok
+  const (4, Colors.black), // Cola
+  const (1, Colors.yellow), // Mate
 ];
 
 void main() async {

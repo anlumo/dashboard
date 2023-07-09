@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
+import 'package:dashboard/modules/config/config.dart';
 import 'package:dashboard/modules/dependency_injection/di.dart';
-import 'package:dashboard/modules/postgres/database.dart';
 import 'package:equatable/equatable.dart';
+import 'package:http/http.dart' as http;
 
 part 'drinks_request_state.dart';
 
@@ -13,32 +16,17 @@ class DrinksRequestCubit extends Cubit<DrinksRequestState> {
       // keep old data while reloading
       emit(DrinksRequestLoading());
     }
-    final database = await getIt.getAsync<Database>();
-
+    final config = await getIt.getAsync<Config>();
+    final host = config.data['drinks']['address'];
     try {
-      final historyDataFuture = database.query('''SELECT date, category, count
-      FROM drinks, eancodes
-      WHERE
-        date BETWEEN (NOW() - interval '30 days') AND NOW()
-        AND drinks.ean = eancodes.id''');
+      final [history, rankings] = await Future.wait([
+        http.get(Uri.http(host, "/drinks/history")),
+        http.get(Uri.http(host, "/drinks/rankings")),
+      ]);
+      final historyDecoded = jsonDecode(utf8.decode(history.bodyBytes)).cast<Map<String, dynamic>>();
+      final rankingsDecoded = Ranking.fromJson(jsonDecode(utf8.decode(rankings.bodyBytes)).cast());
 
-      final top10DataFutures = Iterable.generate(5, (category) {
-        return database.query('''SELECT
-              name,
-              SUM(count) AS total,
-              category
-            FROM drinks, eancodes
-            WHERE drinks.date >= (CURRENT_DATE - INTERVAL '1 month')
-              AND drinks.ean=eancodes.id
-              ${category == 0 ? '' : 'AND category = $category'}
-            GROUP BY drinks.ean,eancodes.name, eancodes.category
-            ORDER BY total DESC LIMIT 10''');
-      });
-
-      final results =
-          await Future.wait([historyDataFuture].followedBy(top10DataFutures));
-
-      emit(DrinksRequestHasData(results));
+      emit(DrinksRequestHasData(history: historyDecoded, rankings: rankingsDecoded));
     } on Error catch (error) {
       emit(DrinksRequestFailed(error));
     }

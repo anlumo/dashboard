@@ -1,9 +1,5 @@
-postgres:
+drinks:
   address: "localhost"
-  port: 5432
-  database: "drinks"
-  username: "root"
-  password: "****"
 homeassistant:
   url: "ws://<HOST>/api/websocket"
   token: JWTTOKENHERE

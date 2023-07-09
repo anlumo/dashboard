@@ -27,11 +27,8 @@ class DrinksView extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: DrinksTop10(
                   category: index == 0 ? null : index,
-                  colorGenerator: (category) => category != null
-                      ? kColorScheme
-                          .firstWhere((cat) => cat.item1 == category)
-                          .item2
-                      : kColorScheme[0].item2,
+                  colorGenerator: (category) =>
+                      category != null ? kColorScheme.firstWhere((cat) => cat.$1 == category).$2 : kColorScheme[0].$2,
                   fontSize: 16,
                   height: 190,
                 ),

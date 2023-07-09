@@ -1,6 +1,5 @@
 import 'package:charts_painter/chart.dart';
 import 'package:dashboard/models/cubit/power_request_cubit.dart';
-import 'package:dashboard/utils/tuple.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -61,8 +60,7 @@ class PowerChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PowerRequestCubit, PowerRequestState>(
-        builder: (context, state) {
+    return BlocBuilder<PowerRequestCubit, PowerRequestState>(builder: (context, state) {
       if (state is PowerRequestInitial || state is PowerRequestLoading) {
         return SizedBox(
           height: height,
@@ -70,8 +68,7 @@ class PowerChart extends StatelessWidget {
             child: SizedBox(
               width: 25,
               height: 25,
-              child: CircularProgressIndicator(
-                  color: Theme.of(context).colorScheme.secondary),
+              child: CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary),
             ),
           ),
         );
@@ -84,15 +81,13 @@ class PowerChart extends StatelessWidget {
               Icons.error_outline,
               color: Theme.of(context).colorScheme.error,
             ),
-            Text('${state.error}',
-                style: TextStyle(color: Theme.of(context).colorScheme.error)),
+            Text('${state.error}', style: TextStyle(color: Theme.of(context).colorScheme.error)),
           ],
         ));
       }
 
-      final entityMap = Map.fromEntries(entities
-          .expand((entity) => entity.iterator())
-          .map((entity) => MapEntry(entity.id, entity)));
+      final entityMap =
+          Map.fromEntries(entities.expand((entity) => entity.iterator()).map((entity) => MapEntry(entity.id, entity)));
 
       final totalPower = (state as PowerRequestHasData).data;
       if (!totalPower['success']) {
@@ -104,24 +99,22 @@ class PowerChart extends StatelessWidget {
       }
       final result = totalPower['result'] as Map<String, dynamic>;
 
-      final values = <String, List<Tuple<DateTime, double>>>{};
+      final values = <String, List<(DateTime, double)>>{};
 
       for (final kv in result.entries) {
         final entityId = kv.key;
 
         values[entityId] = kv.value
-            .map<Tuple<DateTime, double>?>((event) {
+            .map<(DateTime, double)?>((event) {
               try {
                 final s = double.parse(event['s']); // kWh
-                final lu = DateTime.fromMicrosecondsSinceEpoch(
-                        ((event['lu'] as double) * 1e6).round())
-                    .toLocal();
-                return Tuple(lu, s);
+                final lu = DateTime.fromMicrosecondsSinceEpoch(((event['lu'] as double) * 1e6).round()).toLocal();
+                return (lu, s);
               } catch (_) {
                 return null;
               }
             })
-            .whereType<Tuple<DateTime, double>>()
+            .whereType<(DateTime, double)>()
             .toList(growable: false);
       }
 
@@ -141,12 +134,11 @@ class PowerChart extends StatelessWidget {
 
       // update with real values
       final startTime = values.values
-          .map((entity) => entity.first.item1)
-          .reduce((previousValue, element) =>
-              previousValue.isAfter(element) ? element : previousValue);
-      final endTime = values.values.map((entity) => entity.last.item1).reduce(
-          (previousValue, element) =>
-              previousValue.isBefore(element) ? element : previousValue);
+          .map((entity) => entity.first.$1)
+          .reduce((previousValue, element) => previousValue.isAfter(element) ? element : previousValue);
+      final endTime = values.values
+          .map((entity) => entity.last.$1)
+          .reduce((previousValue, element) => previousValue.isBefore(element) ? element : previousValue);
 
       final smoothedValues = <String, List<double>>{};
       for (final kv in values.entries) {
@@ -158,8 +150,8 @@ class PowerChart extends StatelessWidget {
         final smoothedResult = <double>[];
         while (valuesIdx < kv.value.length) {
           final value = kv.value[valuesIdx];
-          if (timeSlotEnd.isAfter(value.item1)) {
-            sum += value.item2;
+          if (timeSlotEnd.isAfter(value.$1)) {
+            sum += value.$2;
             count++;
             valuesIdx++;
           } else {
@@ -179,8 +171,7 @@ class PowerChart extends StatelessWidget {
           smoothedResult.add(0);
         }
 
-        final midnight = DateTime(endTime.year, endTime.month, endTime.day)
-            .add(const Duration(days: 1));
+        final midnight = DateTime(endTime.year, endTime.month, endTime.day).add(const Duration(days: 1));
         while (timeSlotEnd.isBefore(midnight)) {
           smoothedResult.add(0);
           timeSlotEnd = timeSlotEnd.add(averageWindow);
@@ -190,16 +181,12 @@ class PowerChart extends StatelessWidget {
 
       // subtract subentities from their parents
       // we have to go depth first to resolve multi-level dependencies
-      for (final entity
-          in entities.expand((entity) => entity.depthFirstIterator())) {
+      for (final entity in entities.expand((entity) => entity.depthFirstIterator())) {
         if (entity.children.isNotEmpty) {
           final values = smoothedValues[entity.id]!;
-          final childrenValues = entity.children
-              .map((child) => smoothedValues[child.id])
-              .toList(growable: false);
+          final childrenValues = entity.children.map((child) => smoothedValues[child.id]).toList(growable: false);
           for (final index in Iterable.generate(values.length)) {
-            values[index] -=
-                childrenValues.map((values) => values![index]).sum();
+            values[index] -= childrenValues.map((values) => values![index]).sum();
           }
         }
       }
@@ -215,14 +202,12 @@ class PowerChart extends StatelessWidget {
         state: ChartState(
           data: ChartData(
             entityOrder
-                .map((entity) => smoothedValues[entity.id]!
-                    .map((value) => ChartItem<double>(value))
-                    .toList(growable: false))
+                .map((entity) =>
+                    smoothedValues[entity.id]!.map((value) => ChartItem<double>(value)).toList(growable: false))
                 .toList(growable: false),
             dataStrategy: const StackDataStrategy(),
           ),
-          itemOptions: BarItemOptions(
-              barItemBuilder: (_) => const BarItem(color: Colors.transparent)),
+          itemOptions: BarItemOptions(barItemBuilder: (_) => const BarItem(color: Colors.transparent)),
           backgroundDecorations: [
             GridDecoration(
               showVerticalGrid: true,
@@ -243,8 +228,7 @@ class PowerChart extends StatelessWidget {
                   listIndex: index,
                   fill: true,
                 )),
-            WidgetDecoration(widgetDecorationBuilder:
-                ((context, chartState, itemWidth, verticalMultiplier) {
+            WidgetDecoration(widgetDecorationBuilder: ((context, chartState, itemWidth, verticalMultiplier) {
               final duration = endTime.difference(startTime);
 
               return Container(
@@ -258,17 +242,14 @@ class PowerChart extends StatelessWidget {
                         bottom: 0,
                         child: Container(
                             clipBehavior: Clip.none,
-                            transform:
-                                Matrix4.translationValues(0.0, 20.0, 0.0),
+                            transform: Matrix4.translationValues(0.0, 20.0, 0.0),
                             child: SizedBox(
                               width: itemWidth * verticalAxisStep,
                               child: Text(
                                 textAlign: TextAlign.center,
-                                formatter.format(
-                                    startTime.add(Duration(days: index))),
+                                formatter.format(startTime.add(Duration(days: index))),
                                 softWrap: false,
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: fontSize),
+                                style: TextStyle(color: Colors.white, fontSize: fontSize),
                               ),
                             )));
                   }),
