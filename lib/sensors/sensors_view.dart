@@ -1,4 +1,5 @@
 import 'package:dashboard/sensors/co2_sensor.dart';
+import 'package:dashboard/sensors/plant_sensor.dart';
 import 'package:dashboard/sensors/telephone_sensor.dart';
 import 'package:dashboard/sensors/temperature_sensor.dart';
 import 'package:dashboard/sensors/toilet_sensor.dart';
@@ -81,6 +82,10 @@ class SensorsView extends StatelessWidget {
                 ),
                 TelephoneSensor(title: "Telefonzellen"),
               ])),
+          PlantSensor(
+            title: "MetaPlant",
+            entityId: "sensor.metaplant_soil",
+          ),
         ],
       ),
     );

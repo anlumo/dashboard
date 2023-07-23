@@ -2,8 +2,7 @@ import 'package:dashboard/sensors/sensor.dart';
 import 'package:flutter/material.dart';
 
 class TemperatureSensor extends StatelessWidget {
-  const TemperatureSensor(
-      {super.key, required this.title, required this.entityId});
+  const TemperatureSensor({super.key, required this.title, required this.entityId});
 
   final String title;
   final String entityId;
@@ -14,7 +13,7 @@ class TemperatureSensor extends StatelessWidget {
       elevation: 10,
       child: SizedBox(
         width: 256,
-        height: 128,
+        height: 120,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -31,8 +30,7 @@ class TemperatureSensor extends StatelessWidget {
                       final value = double.parse(state);
                       return Text(
                         '${value.toStringAsFixed(1)} °C',
-                        style:
-                            const TextStyle(fontSize: 60, color: Colors.amber),
+                        style: const TextStyle(fontSize: 60, color: Colors.amber),
                       );
                     },
                   ),
