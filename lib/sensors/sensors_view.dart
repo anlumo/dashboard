@@ -85,6 +85,7 @@ class SensorsView extends StatelessWidget {
           PlantSensor(
             title: "MetaPlant",
             entityId: "sensor.metaplant_soil",
+            batteryId: "sensor.metaplant_battery",
           ),
         ],
       ),
