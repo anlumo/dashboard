@@ -50,10 +50,12 @@ class BinarySensorCubit extends Cubit<BinarySensorState> {
 
       final initialState = await hass.request('get_states');
       try {
-        final state = (initialState['result'] as List<dynamic>)
-            .firstWhere((entity) => entity['entity_id'] == entityId);
+        final state = (initialState['result'] as List<dynamic>).firstWhere((entity) => entity['entity_id'] == entityId);
+        print('new state $entityId: $state');
         if (state['state'] == 'on' || state['state'] == 'off') {
           emit(BinarySensorHasData(state['state'] == 'on'));
+        } else if (state['state'] == 'unavailable') {
+          emit(const BinarySensorHasData(null));
         }
       } catch (_) {
         // entity not found
@@ -71,9 +73,18 @@ class BinarySensorCubit extends Cubit<BinarySensorState> {
   }
 
   void _stateChangedEvent(Map<String, dynamic> event) {
-    final state = event['variables']?['trigger']?['to_state'] != null
-        ? event['variables']['trigger']['to_state']['state'] == 'on'
-        : null;
-    emit(state != null ? BinarySensorHasData(state) : BinarySensorLoading());
+    final state =
+        event['variables']?['trigger']?['to_state'] != null ? event['variables']['trigger']['to_state']['state'] : null;
+    print('new state $entityId: $event');
+    switch (state) {
+      case null:
+        emit(BinarySensorLoading());
+      case 'on':
+        emit(const BinarySensorHasData(true));
+      case 'off':
+        emit(const BinarySensorHasData(false));
+      case 'unavailable':
+        emit(const BinarySensorHasData(null));
+    }
   }
 }

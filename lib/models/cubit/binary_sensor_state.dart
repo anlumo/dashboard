@@ -1,6 +1,6 @@
 part of 'binary_sensor_cubit.dart';
 
-abstract class BinarySensorState extends Equatable {
+sealed class BinarySensorState extends Equatable {
   const BinarySensorState();
 
   @override
@@ -12,12 +12,12 @@ class BinarySensorInitial extends BinarySensorState {}
 class BinarySensorLoading extends BinarySensorState {}
 
 class BinarySensorHasData extends BinarySensorState {
-  final bool state;
+  final bool? state;
 
   const BinarySensorHasData(this.state);
 
   @override
-  List<Object> get props => [state];
+  List<Object> get props => [state ?? false, state == null];
 }
 
 class BinarySensorFailed extends BinarySensorState {

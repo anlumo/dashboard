@@ -14,9 +14,7 @@ class WindowSensor extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       child: Row(
         children: [
-          Expanded(
-              child: Padding(
-                  padding: const EdgeInsets.all(8), child: Text(title))),
+          Expanded(child: Padding(padding: const EdgeInsets.all(8), child: Text(title))),
           BinarySensor(
             entityId: entityId,
             builder: (context, state) {
@@ -24,16 +22,18 @@ class WindowSensor extends StatelessWidget {
                 children: [
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: state ? const Text('auf') : const Text('zu')),
-                  SvgPicture.asset(
-                    state
-                        ? "assets/window-open-variant.svg"
-                        : "assets/window-closed-variant.svg",
-                    width: 30,
-                    height: 30,
-                    colorFilter: ColorFilter.mode(
-                        state ? Colors.red : Colors.green, BlendMode.srcATop),
-                  ),
+                      child: state == true
+                          ? const Text('auf')
+                          : state == false
+                              ? const Text('zu')
+                              : const Text('??')),
+                  if (state != null)
+                    SvgPicture.asset(
+                      state ? "assets/window-open-variant.svg" : "assets/window-closed-variant.svg",
+                      width: 30,
+                      height: 30,
+                      colorFilter: ColorFilter.mode(state ? Colors.red : Colors.green, BlendMode.srcATop),
+                    ),
                 ],
               );
             },

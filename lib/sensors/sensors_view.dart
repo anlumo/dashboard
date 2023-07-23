@@ -10,17 +10,17 @@ class SensorsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    return const Padding(
+      padding: EdgeInsets.all(8.0),
       child: Flex(
         direction: Axis.horizontal,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const ToiletSensor(
+          ToiletSensor(
             title: "Stehklo",
             entityId: "binary_sensor.switch2",
           ),
-          const ToiletSensor(
+          ToiletSensor(
             title: "Sitzklo",
             entityId: "binary_sensor.switch1",
           ),
@@ -31,7 +31,7 @@ class SensorsView extends StatelessWidget {
               height: 256,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   WindowSensor(
                     title: "Otterspace 5",
                     entityId: "binary_sensor.otterwindow5_contact",
@@ -60,7 +60,7 @@ class SensorsView extends StatelessWidget {
             height: 280,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 TemperatureSensor(
                   title: "Otterspace",
                   entityId: "sensor.temp_mainroom",
@@ -74,7 +74,7 @@ class SensorsView extends StatelessWidget {
           ),
           SizedBox(
               height: 280,
-              child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [
+              child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 TemperatureSensor(
                   title: "Eingang",
                   entityId: "sensor.antishutdown_ds18b20_temperature",

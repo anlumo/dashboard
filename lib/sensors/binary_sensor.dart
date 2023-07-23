@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BinarySensor extends StatefulWidget {
-  const BinarySensor(
-      {super.key, required this.entityId, required this.builder});
+  const BinarySensor({super.key, required this.entityId, required this.builder});
 
-  final Widget Function(BuildContext context, bool state) builder;
+  final Widget Function(BuildContext context, bool? state) builder;
   final String entityId;
 
   @override

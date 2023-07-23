@@ -34,7 +34,11 @@ class ToiletSensor extends StatelessWidget {
                             padding: const EdgeInsets.all(24.0),
                             child: Icon(
                               FontAwesomeIcons.toilet,
-                              color: state ? Colors.green : Colors.red,
+                              color: state == true
+                                  ? Colors.green
+                                  : state == false
+                                      ? Colors.red
+                                      : Colors.grey,
                               size: 100,
                             ),
                           ),
@@ -42,9 +46,11 @@ class ToiletSensor extends StatelessWidget {
                               right: 0,
                               bottom: 0,
                               child: Icon(
-                                  state
+                                  state == true
                                       ? FontAwesomeIcons.unlockKeyhole
-                                      : FontAwesomeIcons.lock,
+                                      : state == false
+                                          ? FontAwesomeIcons.lock
+                                          : FontAwesomeIcons.question,
                                   size: 70)),
                         ],
                       );
