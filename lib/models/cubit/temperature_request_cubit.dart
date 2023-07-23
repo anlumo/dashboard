@@ -24,8 +24,7 @@ class TemperatureRequestCubit extends Cubit<TemperatureRequestState> {
   TemperatureRequestCubit() : super(TemperatureRequestInitial());
 
   // can be called multiple times to reload the data
-  Future<void> load(
-      DateTime start, DateTime end, List<String> entityIds) async {
+  Future<void> load(DateTime start, DateTime end, List<String> entityIds) async {
     Hass? hass;
     print('temperature load $start to $end');
     dataDuration = end.difference(start);
@@ -51,8 +50,7 @@ class TemperatureRequestCubit extends Cubit<TemperatureRequestState> {
       emit(TemperatureRequestLoading());
     }
     try {
-      final response =
-          await hass.request("history/history_during_period", data: {
+      final response = await hass.request("history/history_during_period", data: {
         "start_time": start.toIso8601String(),
         "end_time": end.toIso8601String(),
         "significant_changes_only": false,
@@ -72,9 +70,7 @@ class TemperatureRequestCubit extends Cubit<TemperatureRequestState> {
                           .map<TemperatureEntry?>((event) {
                             try {
                               return TemperatureEntry(
-                                  DateTime.fromMicrosecondsSinceEpoch(
-                                          ((event['lu'] as double) * 1e6)
-                                              .round())
+                                  DateTime.fromMicrosecondsSinceEpoch(((event['lu'] as double) * 1e6).round())
                                       .toLocal(),
                                   double.parse(event['s']));
                             } catch (_) {
@@ -104,27 +100,20 @@ class TemperatureRequestCubit extends Cubit<TemperatureRequestState> {
     if (_entityIds.contains(entityId) && state is TemperatureRequestHasData) {
       late final TemperatureEntry eventData;
       try {
-        eventData = TemperatureEntry(DateTime.parse(newState['last_changed']),
-            double.parse(newState['state']));
+        eventData = TemperatureEntry(DateTime.parse(newState['last_changed']), double.parse(newState['state']));
       } catch (error) {
         print('Failed parsing entry: $newState: $error');
         return;
       }
-      print('new state $entityId: $eventData');
       final oldData = (state as TemperatureRequestHasData).data;
-      final data =
-          Map<String, List<TemperatureEntry>>.fromEntries(oldData.entries.map(
+      final data = Map<String, List<TemperatureEntry>>.fromEntries(oldData.entries.map(
         (kv) {
-          if (kv.key == entityId &&
-              kv.value.last.time.isBefore(eventData.time)) {
-            final earliest = dataDuration != null
-                ? eventData.time.subtract(dataDuration!)
-                : null;
+          if (kv.key == entityId && kv.value.last.time.isBefore(eventData.time)) {
+            final earliest = dataDuration != null ? eventData.time.subtract(dataDuration!) : null;
             return MapEntry(
                 kv.key,
                 List.unmodifiable(kv.value
-                    .where((event) =>
-                        earliest == null || eventData.time.isAfter(earliest))
+                    .where((event) => earliest == null || eventData.time.isAfter(earliest))
                     .followedBy([eventData])));
           } else {
             return kv;
