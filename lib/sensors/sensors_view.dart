@@ -53,6 +53,14 @@ class SensorsView extends StatelessWidget {
                     title: "WEL",
                     entityId: "binary_sensor.welwindow_contact",
                   ),
+                  WindowSensor(
+                    title: "HEL",
+                    entityId: "binary_sensor.helwindow_contact",
+                  ),
+                  WindowSensor(
+                    title: "Lasercutter",
+                    entityId: "binary_sensor.lasercutterwindow_contact",
+                  ),
                 ],
               ),
             ),

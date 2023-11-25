@@ -203,7 +203,8 @@ class PowerChart extends StatelessWidget {
           data: ChartData(
             entityOrder
                 .map((entity) =>
-                    smoothedValues[entity.id]?.map((value) => ChartItem<double>(value)).toList(growable: false) ?? [])
+                    smoothedValues[entity.id]?.map((value) => ChartItem<double>(value)).toList(growable: false))
+                .whereType<List<ChartItem<dynamic>>>()
                 .toList(growable: false),
             dataStrategy: const StackDataStrategy(),
           ),

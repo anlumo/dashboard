@@ -14,7 +14,7 @@ class WindowSensor extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       child: Row(
         children: [
-          Expanded(child: Padding(padding: const EdgeInsets.all(8), child: Text(title))),
+          Expanded(child: Text(title)),
           BinarySensor(
             entityId: entityId,
             builder: (context, state) {
@@ -30,8 +30,8 @@ class WindowSensor extends StatelessWidget {
                   if (state != null)
                     SvgPicture.asset(
                       state ? "assets/window-open-variant.svg" : "assets/window-closed-variant.svg",
-                      width: 30,
-                      height: 30,
+                      width: 20,
+                      height: 20,
                       colorFilter: ColorFilter.mode(state ? Colors.red : Colors.green, BlendMode.srcATop),
                     ),
                 ],

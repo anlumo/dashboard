@@ -19,12 +19,6 @@ final powerMeasurementEntities = [
         color: wongColorblindPalette[2],
         children: [
           PowerMeasurementPoint(
-            id: "sensor.metafridgepower_energy_power",
-            description: 'Metafridge',
-            multiplier: 1,
-            color: wongColorblindPalette[3],
-          ),
-          PowerMeasurementPoint(
             id: "sensor.metafreezepower_energy_power",
             description: 'Metafreezer',
             multiplier: 1,
@@ -55,7 +49,7 @@ final powerMeasurementEntities = [
 ];
 
 class PowerView extends StatelessWidget {
-  const PowerView({Key? key}) : super(key: key);
+  const PowerView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +72,7 @@ class PowerView extends StatelessWidget {
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
                 colors: [colorScheme.primary, colorScheme.secondary]),
-            height: 300,
+            height: 200,
           ),
         ),
         Positioned(
@@ -115,8 +109,7 @@ class PowerView extends StatelessWidget {
 
   static PowerRequestCubit generateCubit(BuildContext context) {
     final endTime = DateTime.now();
-    final startTime = endTime.subtract(const Duration(
-        days: 14)); // Home Assistant might not have that much data!
+    final startTime = endTime.subtract(const Duration(days: 14)); // Home Assistant might not have that much data!
 
     final entityIds = powerMeasurementEntities
         .expand((entity) => entity.iterator())

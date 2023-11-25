@@ -12,10 +12,10 @@ class TabsView extends StatefulWidget {
   final Duration switchTime;
   final Duration animationTime;
   const TabsView({
-    Key? key,
+    super.key,
     required this.switchTime,
     required this.animationTime,
-  }) : super(key: key);
+  });
 
   @override
   State<TabsView> createState() => _TabsViewState();
