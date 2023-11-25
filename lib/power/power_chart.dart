@@ -48,7 +48,7 @@ class PowerChart extends StatelessWidget {
   final double height;
 
   const PowerChart({
-    Key? key,
+    super.key,
     required this.entities,
     required this.averageWindow,
     required this.verticalAxisStep,
@@ -56,7 +56,7 @@ class PowerChart extends StatelessWidget {
     required this.lineColor,
     required this.gradient,
     this.height = 300,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +186,7 @@ class PowerChart extends StatelessWidget {
           final values = smoothedValues[entity.id]!;
           final childrenValues = entity.children.map((child) => smoothedValues[child.id]).toList(growable: false);
           for (final index in Iterable.generate(values.length)) {
-            values[index] -= childrenValues.map((values) => values![index]).sum();
+            values[index] -= childrenValues.map((values) => values?[index] ?? 0).sum();
           }
         }
       }
@@ -203,7 +203,7 @@ class PowerChart extends StatelessWidget {
           data: ChartData(
             entityOrder
                 .map((entity) =>
-                    smoothedValues[entity.id]!.map((value) => ChartItem<double>(value)).toList(growable: false))
+                    smoothedValues[entity.id]?.map((value) => ChartItem<double>(value)).toList(growable: false) ?? [])
                 .toList(growable: false),
             dataStrategy: const StackDataStrategy(),
           ),
