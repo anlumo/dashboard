@@ -14,12 +14,12 @@ final class DrinksRequestLoading extends DrinksRequestState {}
 final class RankingEntry {
   final String name;
   final int total;
-  final int category;
+  final int? category;
 
   const RankingEntry(this.name, this.total, this.category);
 
   factory RankingEntry.fromJson(Map<String, dynamic> json) =>
-      RankingEntry(json['name'], json['total'] as int, json['category'] as int);
+      RankingEntry(json['name'], json['total'] as int, json['category'] as int?);
 }
 
 final class RankingCategory {
