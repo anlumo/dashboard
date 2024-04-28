@@ -72,11 +72,11 @@ class SensorsView extends StatelessWidget {
               children: [
                 TemperatureSensor(
                   title: "Otterspace",
-                  entityId: "sensor.temp_mainroom",
+                  entityId: "sensor.ag_one_temperature",
                 ),
                 Co2Sensor(
                   title: "Otterspace CO₂",
-                  entityId: "sensor.air_quality_sensor_co2",
+                  entityId: "sensor.ag_one_co2",
                 ),
               ],
             ),
