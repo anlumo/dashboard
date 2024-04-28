@@ -85,16 +85,14 @@ class SensorsView extends StatelessWidget {
           SizedBox(
               height: 280,
               child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                AQISensor(
-                  entityId: "sensor.ag_one_pm_2_5_aqi",
+                PlantSensor(
+                  title: "MetaPlant",
+                  entityId: "sensor.metaplant_soil",
+                  batteryId: "sensor.metaplant_battery",
                 ),
                 TelephoneSensor(title: "Telefonzellen"),
               ])),
-          PlantSensor(
-            title: "MetaPlant",
-            entityId: "sensor.metaplant_soil",
-            batteryId: "sensor.metaplant_battery",
-          ),
+          AQISensor(),
         ],
       ),
     );

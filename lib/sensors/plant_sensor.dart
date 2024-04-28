@@ -15,7 +15,7 @@ class PlantSensor extends StatelessWidget {
       elevation: 10,
       child: SizedBox(
         width: 256,
-        height: 256,
+        height: 120,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Stack(
@@ -23,7 +23,7 @@ class PlantSensor extends StatelessWidget {
               Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(title),
                   ),
                   Expanded(
@@ -43,18 +43,18 @@ class PlantSensor extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(24.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
                               child: Icon(
                                 FontAwesomeIcons.seedling,
                                 color: color,
-                                size: 100,
+                                size: 50,
                               ),
                             ),
                             DecoratedBox(
                               decoration: const ShapeDecoration(shape: StadiumBorder(), color: Colors.grey),
                               child: SizedBox(
                                 width: 20,
-                                height: 128,
+                                height: 120,
                                 child: value == null
                                     ? null
                                     : Align(
@@ -79,7 +79,7 @@ class PlantSensor extends StatelessWidget {
               Align(
                 alignment: Alignment.topRight,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   child: Sensor(
                     entityId: batteryId,
                     builder: (context, state) {

@@ -23,7 +23,7 @@ class TelephoneSensor extends StatelessWidget {
               const Expanded(
                 child: Center(
                   child: Text(
-                    '2',
+                    '2+',
                     style: TextStyle(fontSize: 60, color: Colors.amber),
                   ),
                 ),
