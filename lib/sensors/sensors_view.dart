@@ -84,9 +84,8 @@ class SensorsView extends StatelessWidget {
           SizedBox(
               height: 280,
               child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                TemperatureSensor(
-                  title: "Eingang",
-                  entityId: "sensor.antishutdown_ds18b20_temperature",
+                AQISensor(
+                  entityId: "sensor.ag_one_pm_2_5_aqi",
                 ),
                 TelephoneSensor(title: "Telefonzellen"),
               ])),
