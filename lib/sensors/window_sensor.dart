@@ -11,7 +11,7 @@ class WindowSensor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Row(
         children: [
           Expanded(child: Text(title)),

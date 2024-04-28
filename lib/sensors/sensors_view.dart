@@ -1,3 +1,4 @@
+import 'package:dashboard/sensors/aqi_sensor.dart';
 import 'package:dashboard/sensors/co2_sensor.dart';
 import 'package:dashboard/sensors/plant_sensor.dart';
 import 'package:dashboard/sensors/telephone_sensor.dart';
@@ -31,7 +32,7 @@ class SensorsView extends StatelessWidget {
               width: 256,
               height: 256,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   WindowSensor(
                     title: "Otterspace 5",
