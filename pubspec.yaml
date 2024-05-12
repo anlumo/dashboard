@@ -49,6 +49,7 @@ dependencies:
   flutter_svg: ^2.0.0+1
   http: ^1.1.0
   gauge_indicator: ^0.4.3
+  flutter_layout_grid: ^2.0.6
 
 dev_dependencies:
   flutter_test:
