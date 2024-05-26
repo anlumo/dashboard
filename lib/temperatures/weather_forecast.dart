@@ -30,40 +30,46 @@ class WeatherForecast extends StatelessWidget {
                   color: Colors.blue,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: LayoutGrid(
-                        areas: '''
+                    child: LayoutGrid(areas: '''
                                 time
                                 icon
                                 temp
                                 wind
                                 .
-                                  ''',
-                        columnSizes: [1.fr],
-                        rowSizes: [auto, auto, auto, auto, 1.fr],
-                        rowGap: 4,
-                        children: [
-                          Center(
-                            child: Text(
-                              '${date.hour.toString()} Uhr',
-                              style: theme.textTheme.labelLarge?.copyWith(fontSize: 24),
-                            ),
-                          ).inGridArea('time'),
-                          Center(
-                            child: Image.asset(
-                              'assets/weather_icons/${weather.weatherIcon}@2x.png',
-                            ),
-                          ).inGridArea('icon'),
-                          if (weather.temperature?.celsius != null)
-                            Center(
-                              child: Text(
-                                '${weather.temperature!.celsius!.toStringAsFixed(1)}°C',
-                                style: theme.textTheme.displaySmall,
-                              ),
-                            ).inGridArea('temp'),
-                          Center(
-                            child: Text('Wind: ${(weather.windSpeed ?? 0 * 3.6).toStringAsPrecision(2)} km/h'),
-                          ).inGridArea('wind'),
-                        ]),
+                                  ''', columnSizes: [
+                      1.fr
+                    ], rowSizes: [
+                      auto,
+                      auto,
+                      auto,
+                      auto,
+                      1.fr
+                    ], children: [
+                      Center(
+                        child: Text(
+                          '${date.hour.toString()} Uhr',
+                          style: theme.textTheme.labelMedium,
+                        ),
+                      ).inGridArea('time'),
+                      Center(
+                        child: Image.asset(
+                          'assets/weather_icons/${weather.weatherIcon}@2x.png',
+                        ),
+                      ).inGridArea('icon'),
+                      if (weather.temperature?.celsius != null)
+                        Center(
+                          child: Text(
+                            '${weather.temperature!.celsius!.toStringAsFixed(1)}°C',
+                            style: theme.textTheme.labelLarge,
+                          ),
+                        ).inGridArea('temp'),
+                      Center(
+                        child: Text(
+                          'Wind: ${(weather.windSpeed ?? 0 * 3.6).toStringAsPrecision(2)} km/h',
+                          style: theme.textTheme.labelSmall?.copyWith(fontSize: 9),
+                        ),
+                      ).inGridArea('wind'),
+                    ]),
                   ),
                 ),
               ),
