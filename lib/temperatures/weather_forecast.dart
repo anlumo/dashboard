@@ -19,10 +19,15 @@ class WeatherForecast extends StatelessWidget {
           children: state.take(8).map((weather) {
             final date = weather.date;
 
+            if (date == null) {
+              return const SizedBox();
+            }
+
             return Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Card(
+                  color: Colors.blue,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: LayoutGrid(
@@ -39,7 +44,7 @@ class WeatherForecast extends StatelessWidget {
                         children: [
                           Center(
                             child: Text(
-                              '${date?.hour.toString()} Uhr',
+                              '${date.hour.toString()} Uhr',
                               style: theme.textTheme.labelLarge?.copyWith(fontSize: 24),
                             ),
                           ).inGridArea('time'),
@@ -48,14 +53,15 @@ class WeatherForecast extends StatelessWidget {
                               'assets/weather_icons/${weather.weatherIcon}@2x.png',
                             ),
                           ).inGridArea('icon'),
+                          if (weather.temperature?.celsius != null)
+                            Center(
+                              child: Text(
+                                '${weather.temperature!.celsius!.toStringAsFixed(1)}°C',
+                                style: theme.textTheme.displaySmall,
+                              ),
+                            ).inGridArea('temp'),
                           Center(
-                            child: Text(
-                              '${weather.temperature?.celsius?.toStringAsFixed(1)}°C',
-                              style: theme.textTheme.displaySmall,
-                            ),
-                          ).inGridArea('temp'),
-                          Center(
-                            child: Text('Wind: ${weather.windSpeed ?? 0 * 3.6} km/h'),
+                            child: Text('Wind: ${(weather.windSpeed ?? 0 * 3.6).toStringAsPrecision(2)} km/h'),
                           ).inGridArea('wind'),
                         ]),
                   ),
