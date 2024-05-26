@@ -1,6 +1,7 @@
 import 'package:dashboard/models/cubit/temperature_request_cubit.dart';
 import 'package:dashboard/temperatures/particulate_matters_chart.dart';
 import 'package:dashboard/temperatures/temperatures_chart.dart';
+import 'package:dashboard/temperatures/weather_forecast.dart';
 import 'package:dashboard/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -68,7 +69,7 @@ class TemperaturesView extends StatelessWidget {
           temp     particulate
           humidity particulate
           co2      pm03
-          entrance .
+          entrance weather
         ''',
         columnSizes: [1.fr, 1.fr],
         rowSizes: [1.fr, 1.fr, 1.fr, 1.fr],
@@ -88,6 +89,7 @@ class TemperaturesView extends StatelessWidget {
             averageWindow: Duration(minutes: 5),
             verticalAxisStep: 24 * 60 / 5, // one day
           ).inGridArea('particulate'),
+          const WeatherForecast().inGridArea('weather'),
         ],
       ),
     );

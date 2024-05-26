@@ -50,6 +50,7 @@ dependencies:
   http: ^1.1.0
   gauge_indicator: ^0.4.3
   flutter_layout_grid: ^2.0.6
+  weather: ^3.1.1
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +79,7 @@ flutter:
     - assets/config.yaml
     - assets/window-closed-variant.svg
     - assets/window-open-variant.svg
+    - assets/weather_icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

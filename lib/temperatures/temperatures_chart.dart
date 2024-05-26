@@ -183,9 +183,9 @@ class TemperaturesChart extends StatelessWidget {
                           }))
                         ]),
                   );
-                }).inGridArea('chart'),
+                }),
               ),
-            ),
+            ).inGridArea('chart'),
           ],
         );
       },

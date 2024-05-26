@@ -3,3 +3,7 @@ drinks:
 homeassistant:
   url: "ws://<HOST>/api/websocket"
   token: JWTTOKENHERE
+weather:
+  api_key: "abcdef"
+  latitude: 0
+  longitude: 0
